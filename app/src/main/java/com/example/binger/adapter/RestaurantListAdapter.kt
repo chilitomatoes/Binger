@@ -9,8 +9,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.binger.R
-import com.example.binger.ui.home.Hours
-import com.example.binger.ui.home.RestaurantModel
+import com.example.binger.model.Hours
+import com.example.binger.model.RestaurantModel
 import java.text.SimpleDateFormat
 import java.util.*
 

@@ -1,7 +1,6 @@
-package com.example.binger.ui.home.adapter
+package com.example.binger.adapter
 
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -9,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.binger.R
-import com.example.binger.ui.home.Menus
+import com.example.binger.model.Menus
 
 
 class OrderPlacementAdapter(val menuList:List<Menus?>?):RecyclerView.Adapter<OrderPlacementAdapter.MyViewHolder>()
@@ -17,12 +16,12 @@ class OrderPlacementAdapter(val menuList:List<Menus?>?):RecyclerView.Adapter<Ord
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): OrderPlacementAdapter.MyViewHolder {
+    ): MyViewHolder {
         val view:View=LayoutInflater.from(parent.context).inflate(R.layout.order_placement_list,parent,false)
         return MyViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: OrderPlacementAdapter.MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bind(menuList?.get(position)!!)
     }
 

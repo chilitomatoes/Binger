@@ -1,11 +1,9 @@
-package com.example.binger.ui.home
+package com.example.binger.ui.menu
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -13,9 +11,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.binger.R
 import com.example.binger.adapter.MenuListAdapter
-import com.example.binger.databinding.FragmentHomeBinding
 import com.example.binger.databinding.FragmentMenuBinding
-import com.example.binger.ui.home.ViewModel.menuViewModel
+import com.example.binger.model.Menus
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -23,9 +20,7 @@ import com.google.firebase.database.ValueEventListener
 
 class menu : Fragment(), MenuListAdapter.MenuListClickListener {
 
-    companion object {
-        fun newInstance() = menu()
-    }
+
     private var _binding: FragmentMenuBinding? = null
     private val binding get() = _binding!!
 

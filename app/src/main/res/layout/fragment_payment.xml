@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.Payment"
+    tools:context=".ui.payment.Payment"
     android:paddingBottom="10dp"
     >
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,16 +12,74 @@
         android:layout_height="match_parent">
 
 
-        <TextView android:id="@+id/tvCustomerDetails"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/addressCardView"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvAddress">
+
+            <TextView
+                android:id="@+id/defaultAddressNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textSize="16sp"
+                android:translationX="80dp"
+                android:translationY="15dp" />
+
+            <TextView
+                android:id="@+id/defaultAddressTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textSize="14sp"
+                android:translationX="80dp"
+                android:translationY="40dp" />
+
+            <ImageView
+                android:id="@+id/addressArrow"
+                android:layout_width="36dp"
+                android:layout_height="37dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/next_arrow"
+                android:translationX="350dp"
+                android:translationY="20dp" />
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="35dp"
+                android:layout_height="45dp"
+                android:src="@drawable/ic_menu_address"
+                android:translationX="25dp"
+                android:translationY="15dp" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tvAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_margin="10dp"
-            android:text="Customer Details"
+            android:text="@string/menu_address"
             android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+        <TextView
+            android:id="@+id/tvCustomerDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/checkOut"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <RadioGroup
@@ -32,14 +90,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvCustomerDetails"
             android:orientation="horizontal"
-            android:checkedButton="@+id/radioButtonPickup">
-
-            <RadioButton
-                android:id="@+id/radioButtonPickup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/PickUp"
-                android:padding="10dp" />
+            android:checkedButton="@+id/radioButtonDelivery">
 
             <RadioButton
                 android:id="@+id/radioButtonDelivery"
@@ -48,140 +99,27 @@
                 android:text="@string/Delivery"
                 android:padding="10dp" />
 
+            <RadioButton
+                android:id="@+id/radioButtonPickup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/PickUp"
+                android:padding="10dp" />
+
         </RadioGroup>
 
 
-        <EditText
-            android:id="@+id/inputName"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="10dp"
-            android:hint="Enter your name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
-
-        <EditText
-            android:id="@+id/inputCardNumber"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="10dp"
-            android:hint="Enter Card Number"
-            android:inputType="number"
-            android:maxLength="16"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvCardDetails" />
-
-        <EditText android:id="@+id/inputAddress"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/inputName"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="05dp"
-            android:layout_marginBottom="05dp"
-            android:hint="Enter your address"
-            android:visibility="gone"/>
-
-        <EditText android:id="@+id/inputCity"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/inputAddress"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="05dp"
-            android:layout_marginBottom="05dp"
-            android:hint="Enter your city"
-            android:visibility="gone"/>
-
-        <EditText android:id="@+id/inputState"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/inputCity"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="05dp"
-            android:layout_marginBottom="05dp"
-            android:hint="Enter your state"
-            android:visibility="gone"/>
-
-        <EditText android:id="@+id/inputZip"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/inputState"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="05dp"
-            android:layout_marginBottom="05dp"
-            android:hint="Enter your zip"
-            android:inputType="number"
-            android:maxLength="5"
-            android:visibility="gone"/>
-
-        <TextView android:id="@+id/tvCardDetails"
+        <TextView
+            android:id="@+id/tvTotalItems"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/inputZip"
-            android:layout_margin="10dp"
-            android:text="Card Details"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
-
-        <EditText android:id="@+id/inputCardExpiry"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/inputCardNumber"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="05dp"
-            android:layout_marginBottom="05dp"
-            android:hint="Enter Card expiry(mm/yyyy)"
-            android:inputType="number"
-            android:maxLength="6"/>
-
-        <EditText android:id="@+id/inputCardPin"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/inputCardExpiry"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="05dp"
-            android:layout_marginBottom="05dp"
-            android:hint="Enter Card pin(3 digits)"
-            android:inputType="number"
-            android:maxLength="3"/>
-
-        <TextView android:id="@+id/tvTotalItems"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/inputCardPin"
             android:layout_margin="10dp"
             android:text="Total items in cart"
             android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/paymentCardView" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/cartItemsRecyclerView"
@@ -267,6 +205,64 @@
             android:layout_margin="10dp"
             android:background="@drawable/button_back"
             />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/paymentCardView"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvPayment">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="45dp"
+                android:layout_height="35dp"
+                android:src="@drawable/card"
+                android:translationX="20dp"
+                android:translationY="15dp" />
+
+            <TextView
+                android:id="@+id/defaultCardNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textSize="16sp"
+                android:translationX="80dp"
+                android:translationY="15dp" />
+
+            <TextView
+                android:id="@+id/defaultCardNumTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textSize="14sp"
+                android:translationX="80dp"
+                android:translationY="40dp" />
+
+            <ImageView
+                android:id="@+id/paymentArrow"
+                android:layout_width="36dp"
+                android:layout_height="37dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/next_arrow"
+                android:translationX="350dp"
+                android:translationY="20dp" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tvPayment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/menu_payment"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addressCardView" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

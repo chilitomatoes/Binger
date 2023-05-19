@@ -31,13 +31,13 @@
     <string name="townTxt">Town</string>
     <string name="stateTxt">State</string>
     <string name="addressNameTxt">Name</string>
-    <string name="maps_api_key">AIzaSyBzuVq6wnf2ZmW4vVIloarmXT4e2_NqDpY</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="PickUp">Pick Up</string>
     <string name="Delivery">Delivery</string>
-
+    <string name="checkOut">Check Out</string>
+    <string name="selectButton">Select</string>
 
 </resources>

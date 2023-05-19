@@ -1,4 +1,4 @@
-package com.example.binger.ui.home
+package com.example.binger.model
 
 import android.os.Parcel
 import android.os.Parcelable

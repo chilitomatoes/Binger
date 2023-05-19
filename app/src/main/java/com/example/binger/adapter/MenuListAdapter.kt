@@ -1,33 +1,29 @@
 package com.example.binger.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.view.LayoutInflaterCompat
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.binger.R
 import com.example.binger.databinding.FragmentMenuBinding
-import com.example.binger.ui.home.Menus
-import com.example.binger.ui.home.ViewModel.menuViewModel
-import com.example.binger.ui.home.menu
+import com.example.binger.model.Menus
+import com.example.binger.ui.menu.menuViewModel
 
 
 class MenuListAdapter(
     var menuList: List<Menus?>?,
-    val clickListener: MenuListAdapter.MenuListClickListener,
+    val clickListener: MenuListClickListener,
     var viewModel: menuViewModel
 ) : RecyclerView.Adapter<MenuListAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): MenuListAdapter.MyViewHolder {
+    ): MyViewHolder {
         val binding = FragmentMenuBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
@@ -45,7 +41,7 @@ class MenuListAdapter(
         notifyDataSetChanged()
     }
 
-    override fun onBindViewHolder(holder: MenuListAdapter.MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bind(viewModel.menus?.get(position)!!, position)
     }
 

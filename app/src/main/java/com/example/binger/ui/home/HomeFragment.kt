@@ -1,21 +1,18 @@
 package com.example.binger.ui.home
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.binger.R
 import com.example.binger.adapter.RestaurantListAdapter
 import com.example.binger.databinding.FragmentHomeBinding
-import com.example.binger.ui.home.ViewModel.menuViewModel
+import com.example.binger.model.RestaurantModel
+import com.example.binger.ui.menu.menuViewModel
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
