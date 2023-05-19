@@ -3,6 +3,7 @@ package com.example.binger.adapter
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.binger.R
 import com.example.binger.databinding.FragmentPaymentmethodBinding
@@ -19,12 +21,6 @@ import com.example.binger.ui.paymentMethods.PaymentMethodFragment
 import com.google.firebase.database.DatabaseReference
 
 class PaymentMethodAdapter(val context: Context, private val paymentMethodList : ArrayList<PaymentMethod>, private val database: DatabaseReference): RecyclerView.Adapter<PaymentMethodAdapter.MyViewHolder>() {
-
-    private var _binding: FragmentPaymentmethodBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -41,9 +37,14 @@ class PaymentMethodAdapter(val context: Context, private val paymentMethodList :
         holder.cardNum.text = currentItem.cardNum.toString()
         holder.holderName.text = currentItem.holderName
 
+        if(currentItem.default==1){
+            holder.itemLayout.setBackgroundColor(Color.WHITE)
+            holder.deleteBtn.isVisible = false
+        }
+
         holder.deleteBtn.setOnClickListener(){
             val builder = AlertDialog.Builder(context)
-            builder.setMessage("Are you sure you want to DELETE?")
+            builder.setMessage("Confirm to DELETE?")
                 .setCancelable(false)
                 .setPositiveButton("Yes") { dialog, id ->
                     database.child(currentItem.id.toString()).removeValue()
@@ -59,13 +60,24 @@ class PaymentMethodAdapter(val context: Context, private val paymentMethodList :
         }
 
         holder.isDefault.setOnClickListener(){
+            val builder = AlertDialog.Builder(context)
+            builder.setMessage("Confirm to SET AS DEFAULT?")
+                .setCancelable(false)
+                .setPositiveButton("Yes") { dialog, id ->
+                    for(paymentMethod in paymentMethodList){
+                        paymentMethod.default = 0
+                        database.child(paymentMethod.id.toString()).child("default").setValue(0)
+                    }
+                    database.child(currentItem.id.toString()).child("default").setValue(1)
+                    Toast.makeText(context, "Set Default Successfully", Toast.LENGTH_SHORT).show()
+                }
+                .setNegativeButton("No") { dialog, id ->
+                    // Dismiss the dialog
+                    dialog.dismiss()
+                }
+            val alert = builder.create()
+            alert.show()
 
-            for(paymentMethod in paymentMethodList){
-                paymentMethod.default = 0
-                database.child(paymentMethod.id.toString()).child("default").setValue(0)
-            }
-            database.child(currentItem.id.toString()).child("default").setValue(1)
-            Toast.makeText(context, "Set Default Successfully", Toast.LENGTH_SHORT).show()
         }
 
         holder.isDefault.isEnabled = currentItem.default != 1
@@ -80,5 +92,6 @@ class PaymentMethodAdapter(val context: Context, private val paymentMethodList :
         val cardNum: TextView = itemView.findViewById(R.id.cardNumTextView)
         val isDefault: Button = itemView.findViewById(R.id.setPaymentDefaultButton)
         val deleteBtn: ImageButton = itemView.findViewById(R.id.deletePaymentMethodButton)
+        val itemLayout: View = itemView.findViewById(R.id.paymentMethodItemLayout)
     }
 }

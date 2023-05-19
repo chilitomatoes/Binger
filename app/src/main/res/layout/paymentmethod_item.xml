@@ -2,8 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/paymentMethodItemLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#EAE9E9"
     android:outlineProvider="background">
 
     <ImageView
@@ -23,6 +25,7 @@
         android:layout_marginStart="25dp"
         android:text="TextView"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imageView3"
         app:layout_constraintStart_toEndOf="@+id/imageView3"
         app:layout_constraintTop_toTopOf="@+id/imageView3" />

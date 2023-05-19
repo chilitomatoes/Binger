@@ -1,5 +1,6 @@
 package com.example.binger.ui.home
 
+import android.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.binger.databinding.FragmentHomeBinding
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.MarkerOptions
 
 class HomeFragment : Fragment() {
 
@@ -32,6 +36,7 @@ class HomeFragment : Fragment() {
         //homeViewModel.text.observe(viewLifecycleOwner) {
         //    textView.text = it
         //}
+
         return root
     }
 

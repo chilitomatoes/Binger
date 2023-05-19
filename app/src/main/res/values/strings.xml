@@ -24,6 +24,16 @@
     <string name="holderNameTxt">Card Holder Name</string>
     <string name="addButton">ADD</string>
 
+    <string name="addAddressTxt">Add Address</string>
+    <string name="addressLine1Txt">Address line 1</string>
+    <string name="addressLine2Txt">Address line 2</string>
+    <string name="postalCodeTxt">Postal Code</string>
+    <string name="townTxt">Town</string>
+    <string name="stateTxt">State</string>
+    <string name="addressNameTxt">Name</string>
+    <string name="maps_api_key">AIzaSyBzuVq6wnf2ZmW4vVIloarmXT4e2_NqDpY</string>
+
+
 
 
 </resources>

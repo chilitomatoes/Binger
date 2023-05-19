@@ -22,5 +22,10 @@
         android:name="com.example.binger.ui.paymentMethods.PaymentMethodFragment"
         android:label="@string/menu_payment"
         tools:layout="@layout/fragment_paymentmethod" />
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.example.binger.ui.address.MapsFragment"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_maps" />
 
 </navigation>

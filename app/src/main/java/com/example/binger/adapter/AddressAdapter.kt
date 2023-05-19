@@ -3,6 +3,8 @@ package com.example.binger.adapter
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.graphics.Color
+import android.text.Layout
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,20 +13,14 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.binger.R
-import com.example.binger.databinding.FragmentPaymentmethodBinding
-import com.example.binger.model.PaymentMethod
-import com.example.binger.ui.paymentMethods.PaymentMethodFragment
+import com.example.binger.databinding.FragmentAddressBinding
+import com.example.binger.model.Address
 import com.google.firebase.database.DatabaseReference
 
-class AddressAdapter(val context: Context, private val paymentMethodList : ArrayList<PaymentMethod>, private val database: DatabaseReference): RecyclerView.Adapter<AddressAdapter.MyViewHolder>() {
-
-    private var _binding: FragmentPaymentmethodBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+class AddressAdapter(val context: Context, private val addressList : ArrayList<Address>, private val database: DatabaseReference): RecyclerView.Adapter<AddressAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -36,18 +32,24 @@ class AddressAdapter(val context: Context, private val paymentMethodList : Array
     }
 
     override fun onBindViewHolder(holder: AddressAdapter.MyViewHolder, position: Int) {
-        val currentItem = paymentMethodList[position]
+        val currentItem = addressList[position]
 
-        holder.cardNum.text = currentItem.cardNum.toString()
-        holder.holderName.text = currentItem.holderName
+        holder.addressName.text = currentItem.name
+        holder.addressLine1.text = currentItem.line1
+        holder.addressLine2.text = currentItem.line2
+
+        if(currentItem.default==1){
+            holder.itemLayout.setBackgroundColor(Color.WHITE)
+            holder.deleteBtn.isVisible = false
+        }
 
         holder.deleteBtn.setOnClickListener(){
             val builder = AlertDialog.Builder(context)
-            builder.setMessage("Are you sure you want to DELETE?")
+            builder.setMessage("Confirm to DELETE?")
                 .setCancelable(false)
                 .setPositiveButton("Yes") { dialog, id ->
                     database.child(currentItem.id.toString()).removeValue()
-                    Toast.makeText(context, "Card Deleted Successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Address Deleted Successfully", Toast.LENGTH_SHORT).show()
                 }
                 .setNegativeButton("No") { dialog, id ->
                     // Dismiss the dialog
@@ -55,30 +57,41 @@ class AddressAdapter(val context: Context, private val paymentMethodList : Array
                 }
             val alert = builder.create()
             alert.show()
-
         }
 
         holder.isDefault.setOnClickListener(){
-
-            for(paymentMethod in paymentMethodList){
-                paymentMethod.default = 0
-                database.child(paymentMethod.id.toString()).child("default").setValue(0)
-            }
-            database.child(currentItem.id.toString()).child("default").setValue(1)
-            Toast.makeText(context, "Set Default Successfully", Toast.LENGTH_SHORT).show()
+            val builder = AlertDialog.Builder(context)
+            builder.setMessage("Confirm to SET AS DEFAULT?")
+                .setCancelable(false)
+                .setPositiveButton("Yes") { dialog, id ->
+                    for(address in addressList){
+                        address.default = 0
+                        database.child(address.id.toString()).child("default").setValue(0)
+                    }
+                    database.child(currentItem.id.toString()).child("default").setValue(1)
+                    Toast.makeText(context, "Set Default Successfully", Toast.LENGTH_SHORT).show()
+                }
+                .setNegativeButton("No") { dialog, id ->
+                    // Dismiss the dialog
+                    dialog.dismiss()
+                }
+            val alert = builder.create()
+            alert.show()
         }
 
         holder.isDefault.isEnabled = currentItem.default != 1
     }
 
     override fun getItemCount(): Int {
-        return paymentMethodList.size
+        return addressList.size
     }
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val holderName: TextView = itemView.findViewById(R.id.holderNameTextView)
-        val cardNum: TextView = itemView.findViewById(R.id.cardNumTextView)
-        val isDefault: Button = itemView.findViewById(R.id.setPaymentDefaultButton)
-        val deleteBtn: ImageButton = itemView.findViewById(R.id.deletePaymentMethodButton)
+        val addressName: TextView = itemView.findViewById(R.id.addressNameTextView)
+        val addressLine1: TextView = itemView.findViewById(R.id.addressLine1TextView)
+        val addressLine2: TextView = itemView.findViewById(R.id.addressLine2TextView)
+        val isDefault: Button = itemView.findViewById(R.id.setAddressDefaultButton)
+        val deleteBtn: ImageButton = itemView.findViewById(R.id.deleteAddressButton)
+        val itemLayout: View = itemView.findViewById(R.id.addressItemLayout)
     }
 }

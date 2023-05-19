@@ -8,41 +8,37 @@
     android:orientation="vertical">
 
     <EditText
-        android:id="@+id/expYearEditText"
-        android:layout_width="60dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="30dp"
-        android:ems="10"
-        android:hint="YY"
-        android:inputType="number"
-        android:maxLength="2"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="@+id/expMonEditText"
-        app:layout_constraintStart_toEndOf="@+id/expMonEditText"
-        app:layout_constraintTop_toTopOf="@+id/expMonEditText" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="25dp"
-        android:text="@string/cardNumTxt"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addPaymentSlideUp" />
-
-    <EditText
-
-        android:id="@+id/cardNumEditText"
+        android:id="@+id/addressNameEditText"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="330dp"
         android:layout_height="46dp"
         android:layout_marginTop="10dp"
         android:ems="10"
-        android:inputType="number"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/addressLine1Txt"
+        app:layout_constraintStart_toStartOf="@+id/addressNameEditText"
+        app:layout_constraintTop_toBottomOf="@+id/addressNameEditText" />
+
+    <EditText
+
+        android:id="@+id/addressLine1EditText"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="330dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:inputType="textPostalAddress"
         android:maxLength="16"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView3"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <TextView
@@ -51,84 +47,66 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
-        android:text="@string/expiryDateTxt"
+        android:text="@string/postalCodeTxt"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardNumEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/addressLine2EditText" />
 
     <EditText
-        android:id="@+id/expMonEditText"
-        android:layout_width="60dp"
+        android:id="@+id/postalCodeEditText"
+        android:layout_width="150dp"
         android:layout_height="46dp"
-        android:layout_marginStart="25dp"
         android:layout_marginTop="10dp"
         android:ems="10"
-        android:hint="MM"
         android:inputType="number"
-        android:maxLength="2"
-        android:textAlignment="center"
-        app:layout_constraintStart_toStartOf="parent"
+        android:maxLength="5"
+        app:layout_constraintStart_toStartOf="@+id/textView4"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="/"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/expMonEditText"
-        app:layout_constraintEnd_toStartOf="@+id/expYearEditText"
-        app:layout_constraintStart_toEndOf="@+id/expMonEditText"
-        app:layout_constraintTop_toTopOf="@+id/expMonEditText" />
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="115dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/cvcTxt"
+        android:text="@string/townTxt"
         app:layout_constraintStart_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/cardNumEditText" />
+        app:layout_constraintTop_toTopOf="@+id/textView4" />
 
     <EditText
-        android:id="@+id/cvcEditText"
+        android:id="@+id/townEditText"
         android:layout_width="150dp"
         android:layout_height="46dp"
         android:layout_marginStart="30dp"
         android:ems="10"
-        android:inputType="number"
-        android:maxLength="3"
-        app:layout_constraintBottom_toBottomOf="@+id/expYearEditText"
-        app:layout_constraintStart_toEndOf="@+id/expYearEditText"
-        app:layout_constraintTop_toTopOf="@+id/expYearEditText" />
+        android:inputType="textPostalAddress"
+        app:layout_constraintBottom_toBottomOf="@+id/postalCodeEditText"
+        app:layout_constraintStart_toEndOf="@+id/postalCodeEditText"
+        app:layout_constraintTop_toTopOf="@+id/postalCodeEditText" />
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
-        android:text="@string/holderNameTxt"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/expMonEditText" />
+        android:text="@string/stateTxt"
+        app:layout_constraintStart_toStartOf="@+id/postalCodeEditText"
+        app:layout_constraintTop_toBottomOf="@+id/postalCodeEditText" />
 
     <EditText
-        android:id="@+id/holderNameEditText"
+        android:id="@+id/stateEditText"
         android:layout_width="330dp"
         android:layout_height="46dp"
         android:layout_marginTop="10dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:inputType="textPostalAddress"
+        app:layout_constraintStart_toStartOf="@+id/textView8"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <TextView
-        android:id="@+id/addPaymentSlideUp"
+        android:id="@+id/addAddressSlideUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="@string/addCardTxt"
+        android:text="@string/addAddressTxt"
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -136,14 +114,45 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/addPaymentButton"
+        android:id="@+id/addAddressButton"
         android:layout_width="344dp"
         android:layout_height="54dp"
         android:layout_marginTop="30dp"
         android:text="@string/addButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/holderNameEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/stateEditText" />
+
+    <EditText
+
+        android:id="@+id/addressLine2EditText"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="330dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        app:layout_constraintStart_toStartOf="@+id/textView7"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/addressLine2Txt"
+        app:layout_constraintStart_toStartOf="@+id/addressLine1EditText"
+        app:layout_constraintTop_toBottomOf="@+id/addressLine1EditText" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/addressNameTxt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addAddressSlideUp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

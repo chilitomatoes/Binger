@@ -2,8 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/addressItemLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#EAE9E9"
     android:outlineProvider="background">
 
     <ImageView
@@ -14,48 +16,59 @@
         android:layout_marginTop="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/card" />
+        app:srcCompat="@drawable/ic_menu_address" />
 
     <TextView
-        android:id="@+id/holderNameTextView"
+        android:id="@+id/addressNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:text="TextView"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imageView3"
         app:layout_constraintStart_toEndOf="@+id/imageView3"
         app:layout_constraintTop_toTopOf="@+id/imageView3" />
 
     <TextView
-        android:id="@+id/cardNumTextView"
+        android:id="@+id/addressLine1TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="TextView"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/holderNameTextView"
-        app:layout_constraintTop_toBottomOf="@+id/holderNameTextView" />
+        app:layout_constraintStart_toStartOf="@+id/addressNameTextView"
+        app:layout_constraintTop_toBottomOf="@+id/addressNameTextView" />
+
+    <TextView
+        android:id="@+id/addressLine2TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="TextView"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/addressLine1TextView"
+        app:layout_constraintTop_toBottomOf="@+id/addressLine1TextView" />
 
     <ImageButton
-        android:id="@+id/deletePaymentMethodButton"
+        android:id="@+id/deleteAddressButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="30dp"
-        app:layout_constraintBottom_toBottomOf="@+id/holderNameTextView"
+        app:layout_constraintBottom_toBottomOf="@+id/addressNameTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/holderNameTextView"
+        app:layout_constraintTop_toTopOf="@+id/addressNameTextView"
         app:srcCompat="@drawable/delete_icon" />
 
     <Button
-        android:id="@+id/setPaymentDefaultButton"
+        android:id="@+id/setAddressDefaultButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="30dp"
         android:text="@string/default_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/deletePaymentMethodButton" />
+        app:layout_constraintTop_toBottomOf="@+id/deleteAddressButton" />
 
     <View
         android:id="@+id/divider"
@@ -66,5 +79,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setPaymentDefaultButton" />
+        app:layout_constraintTop_toBottomOf="@+id/setAddressDefaultButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

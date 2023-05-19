@@ -61,10 +61,7 @@ class PaymentMethodFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
 
-
         getPaymentMethodData()
-
-
 
         binding.addPaymentFloatingButton.setOnClickListener{
             val bottomSheetDialog = Dialog(requireContext())
