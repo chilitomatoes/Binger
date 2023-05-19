@@ -2,12 +2,10 @@ package com.example.binger.ui.paymentMethods
 
 
 import android.app.Dialog
-import android.content.ContentValues.TAG
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -24,7 +22,6 @@ import com.example.binger.R
 import com.example.binger.adapter.PaymentMethodAdapter
 import com.example.binger.databinding.FragmentPaymentmethodBinding
 import com.example.binger.model.PaymentMethod
-import com.example.binger.ui.home.HomeViewModel
 import com.google.firebase.database.*
 
 
@@ -44,8 +41,7 @@ class PaymentMethodFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val paymentMethodViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+
 
         _binding = FragmentPaymentmethodBinding.inflate(inflater, container, false)
         val root: View = binding.root
