@@ -34,14 +34,14 @@
         tools:layout="@layout/fragment_payment"
         />
     <fragment
-        android:id="@+id/mapsFragment"
-        android:name="com.example.binger.ui.address.MapsFragment"
-        android:label="fragment_maps"
-        tools:layout="@layout/fragment_maps" />
-    <fragment
         android:id="@+id/nav_profile"
         android:name="com.example.binger.ProfileFragment"
         android:label="@string/menu_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.example.binger.ui.map.MapsFragment"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_maps" />
 
 </navigation>

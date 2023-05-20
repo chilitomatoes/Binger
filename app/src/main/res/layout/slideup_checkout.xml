@@ -7,27 +7,37 @@
     android:background="@drawable/slideup_panel"
     android:orientation="vertical">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/selectionRecyclerView"
+        android:layout_width="409dp"
+        android:layout_height="309dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider2"
+        tools:listitem="@layout/selection_item" />
+
     <TextView
-        android:id="@+id/checkOutSlideUp"
+        android:id="@+id/selectionTile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="@string/menu_payment"
-        android:textSize="25sp"
+        android:text="@string/selectButton"
+        android:textSize="25dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/selectionRecyclerView"
+    <View
+        android:id="@+id/divider2"
         android:layout_width="409dp"
-        android:layout_height="309dp"
-        android:layout_marginTop="11dp"
+        android:layout_height="3dp"
+        android:layout_marginTop="10dp"
+        android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkOutSlideUp"
-        tools:listitem="@layout/selection_item"/>
+        app:layout_constraintTop_toBottomOf="@+id/selectionTile" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,10 +17,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.binger.R
 import com.example.binger.databinding.FragmentPaymentmethodBinding
 import com.example.binger.model.PaymentMethod
+import com.example.binger.model.User
 import com.example.binger.ui.paymentMethods.PaymentMethodFragment
 import com.google.firebase.database.DatabaseReference
 
-class PaymentMethodAdapter(val context: Context, private val paymentMethodList : ArrayList<PaymentMethod>, private val database: DatabaseReference): RecyclerView.Adapter<PaymentMethodAdapter.MyViewHolder>() {
+class PaymentMethodAdapter(val context: Context, private val paymentMethodList : ArrayList<PaymentMethod>, private val database: DatabaseReference, private val loginedUser: User): RecyclerView.Adapter<PaymentMethodAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -47,7 +48,7 @@ class PaymentMethodAdapter(val context: Context, private val paymentMethodList :
             builder.setMessage("Confirm to DELETE?")
                 .setCancelable(false)
                 .setPositiveButton("Yes") { dialog, id ->
-                    database.child(currentItem.id.toString()).removeValue()
+                    database.child(loginedUser.uid.toString()).child("cards").child(currentItem.id.toString()).removeValue()
                     Toast.makeText(context, "Card Deleted Successfully", Toast.LENGTH_SHORT).show()
                 }
                 .setNegativeButton("No") { dialog, id ->
@@ -66,9 +67,9 @@ class PaymentMethodAdapter(val context: Context, private val paymentMethodList :
                 .setPositiveButton("Yes") { dialog, id ->
                     for(paymentMethod in paymentMethodList){
                         paymentMethod.default = 0
-                        database.child(paymentMethod.id.toString()).child("default").setValue(0)
+                        database.child(loginedUser.uid.toString()).child("cards").child(paymentMethod.id.toString()).child("default").setValue(0)
                     }
-                    database.child(currentItem.id.toString()).child("default").setValue(1)
+                    database.child(loginedUser.uid.toString()).child("cards").child(currentItem.id.toString()).child("default").setValue(1)
                     Toast.makeText(context, "Set Default Successfully", Toast.LENGTH_SHORT).show()
                 }
                 .setNegativeButton("No") { dialog, id ->

@@ -2,10 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/selectionItemLayout"
+    android:id="@+id/selectionItemColumn"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#EAE9E9"
     android:outlineProvider="background">
 
     <ImageView
@@ -23,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
-        android:text="TextView"
+        android:text="No item"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/selectionImageView"
@@ -35,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="TextView"
+        android:text="Please add at least 1 option"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/selectionNameTextView"
         app:layout_constraintTop_toBottomOf="@+id/selectionNameTextView" />

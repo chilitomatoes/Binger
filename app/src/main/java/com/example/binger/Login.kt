@@ -1,5 +1,6 @@
 package com.example.binger
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,6 +14,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
+import android.util.Log
 import com.example.binger.databinding.ActivityLoginBinding
 import com.example.binger.model.Address
 import com.example.binger.model.Order

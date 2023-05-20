@@ -60,7 +60,7 @@ class PaymentMethodFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loginedUser= readUserData()
-        Log.v(TAG,loginedUser.toString())
+
         database = FirebaseDatabase.getInstance().getReference("User")
 
         recyclerView = binding.paymentMethodRecyclerView
@@ -126,35 +126,32 @@ class PaymentMethodFragment : Fragment() {
         }
     }
 
-    private fun readUserData(): User {
-        val json = sharedPreferences.getString("loginedUser", null)
-        val gson = Gson()
-        return gson.fromJson(json, User::class.java)
-    }
+
 
     private fun getPaymentMethodData() {
 
         database.addValueEventListener(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                Log.v(TAG,"-----------------------------"+loginedUser.cards.toString())
-                if(loginedUser.cards!=null){
-                    recyclerView.adapter = PaymentMethodAdapter(requireContext(),
-                        loginedUser.cards!!, database)
+                paymentMethodList = arrayListOf<PaymentMethod>()
+                if(snapshot.exists()){
+                    for (paymentMethodSnapshot in snapshot.child(loginedUser.uid.toString()).child("cards").children){
+                        val paymentMethod = paymentMethodSnapshot.getValue(PaymentMethod::class.java)
+                        if(paymentMethod?.default == 1){
+                            paymentMethodList.add(0,paymentMethod)
+                        }else {
+                            paymentMethodList.add(paymentMethod!!)
+                        }
+                    }
                 }
 
+                loginedUser.cards = paymentMethodList
+                if(loginedUser.cards!=null && isAdded){
+                    recyclerView.adapter = PaymentMethodAdapter(requireContext(),
+                        loginedUser.cards!!, database, loginedUser)
+                }
 
-                //paymentMethodList = arrayListOf<PaymentMethod>()
-                //if(snapshot.exists()){
-                //    for (paymentMethodSnapshot in snapshot.child("cards").children){
-                //        val paymentMethod = paymentMethodSnapshot.getValue(PaymentMethod::class.java)
-                //        if(paymentMethod?.default == 1){
-                //            paymentMethodList.add(0,paymentMethod)
-                //        }else {
-                //            paymentMethodList.add(paymentMethod!!)
-                //        }
-                //    }
-                //    recyclerView.adapter = PaymentMethodAdapter(requireContext(),paymentMethodList, database)
-                //}
+                saveUserData(loginedUser)
+
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -170,5 +167,19 @@ class PaymentMethodFragment : Fragment() {
         _binding = null
     }
 
+
+    private fun saveUserData(loginedUser: User) {
+        val editor = sharedPreferences.edit()
+        val gson = Gson()
+        val json = gson.toJson(loginedUser)
+        editor.putString("loginedUser", json)
+        editor.apply()
+    }
+
+    private fun readUserData(): User {
+        val json = sharedPreferences.getString("loginedUser", null)
+        val gson = Gson()
+        return gson.fromJson(json, User::class.java)
+    }
 
 }

@@ -1,9 +1,12 @@
 package com.example.binger.ui.payment
 
 import android.app.Dialog
+import android.content.ContentValues.TAG
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.service.autofill.UserData
 import android.text.TextUtils
 import android.util.Log
@@ -11,6 +14,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,18 +25,25 @@ import com.example.binger.databinding.FragmentPaymentBinding
 import com.example.binger.ui.menu.menuViewModel
 import com.example.binger.adapter.OrderPlacementAdapter
 import com.example.binger.model.Menus
+import com.example.binger.model.PaymentMethod
+import com.example.binger.model.User
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.gson.Gson
+import kotlin.math.log
 
 
-class Payment : Fragment() {
+class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener{
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var loginedUser: User
+    private lateinit var selectedCard: PaymentMethod
     var orderPlacement: OrderPlacementAdapter?=null
     var isDeliveryOn:Boolean=false
     var restaurantName:String?="null"
     var food:ArrayList<Menus>?= ArrayList()
     private lateinit var database: DatabaseReference
     lateinit var userData: UserData
-
+    lateinit var bottomSheetDialog: Dialog
     private var _binding: FragmentPaymentBinding? = null
     private val binding get() = _binding!!
 
@@ -44,6 +55,8 @@ class Payment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         viewModel = ViewModelProvider(requireActivity()).get(menuViewModel::class.java)
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         _binding = FragmentPaymentBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
@@ -60,6 +73,16 @@ class Payment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+        loginedUser= readUserData()
+
+        for(card in loginedUser.cards!!){
+            if(card.default==1){
+                selectedCard = card
+                binding.defaultCardNameTextView.text = selectedCard.holderName
+                binding.defaultCardNumTextView.text = selectedCard.cardNum.toString()
+            }
+        }
+
         for(item in viewModel.menus!!)
         {
             Log.v("Count",item.javaClass.toString())
@@ -69,7 +92,7 @@ class Payment : Fragment() {
             }
         }
 
-        val bottomSheetDialog = Dialog(requireContext())
+        bottomSheetDialog = Dialog(requireContext())
 
         bottomSheetDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         bottomSheetDialog.setContentView(R.layout.slideup_checkout)
@@ -81,16 +104,18 @@ class Payment : Fragment() {
         recyclerView = bottomSheetDialog.findViewById(R.id.selectionRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.setHasFixedSize(true)
-        recyclerView.adapter = CheckOutSelectionAdapter(requireContext())
+
 
         binding.addressCardView.setOnClickListener{
 
+            recyclerView.adapter = CheckOutSelectionAdapter(requireContext(), "Address", loginedUser, this)
             bottomSheetDialog.show()
         }
 
         binding.paymentCardView.setOnClickListener{
-            bottomSheetDialog.show()
 
+            recyclerView.adapter = CheckOutSelectionAdapter(requireContext(), "Cards", loginedUser, this)
+            bottomSheetDialog.show()
         }
 
         binding.buttonPlaceYourOrder.setOnClickListener {
@@ -177,7 +202,18 @@ class Payment : Fragment() {
     }
 
 
+    private fun readUserData(): User {
+        val json = sharedPreferences.getString("loginedUser", null)
+        val gson = Gson()
+        return gson.fromJson(json, User::class.java)
+    }
 
+    override fun onItemSelected(selectedIndex: Int?) {
+        bottomSheetDialog.dismiss()
+        selectedCard = loginedUser.cards!![selectedIndex!!]
+        binding.defaultCardNameTextView.text = selectedCard.holderName
+        binding.defaultCardNumTextView.text = selectedCard.cardNum.toString()
+    }
 
 
 }
