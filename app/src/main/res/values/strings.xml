@@ -40,4 +40,34 @@
     <string name="checkOut">Check Out</string>
     <string name="selectButton">Select</string>
 
+
+    <!-- ChekPing-->
+    <string name="login_button">Login</string>
+
+    <string name="Forgotpass">Forgot Password</string>
+    <string name="ForgotpassDec">Enter your email and we will send you a link to reset your password. </string>
+
+    <string name="sign_up_buttom">Sign-Up</string>
+    <string name="logo">TODO</string>
+    <string name="contact_number">Contact Number</string>
+    <string name="name">Name</string>
+    <string name="age">Age</string>
+    <string name="submit_button">Submit</string>
+    <string name="siguppic">TODO</string>
+    <string name="login_password">Password</string>
+    <string name="loginpic">TODO</string>
+    <string name="loginpic2">TODO</string>
+    <string name="login_name">UserName</string>
+    <string name="loginpic3">TODO</string>
+    <string name="bg">TODO</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="bgsignup">TODO</string>
+    <string name="settingbut" />
+    <string name="contactuser">TextView</string>
+    <string name="username_user">Textview</string>
+    <string name="user_age_user">TextView</string>
+    <string name="user_pro">TODO</string>
+    <string name="user_bg">TODO</string>
+
 </resources>
