@@ -13,17 +13,19 @@ import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import com.example.binger.databinding.FragmentProfileBinding
+import com.example.binger.model.User
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.gson.Gson
 
 class ProfileFragment : Fragment() {
-
+    private lateinit var sharedPreferences: SharedPreferences
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var sharedPreferences: SharedPreferences
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -163,12 +165,12 @@ class ProfileFragment : Fragment() {
     }
 
     private fun loadUser() {
-        val savedUsername = sharedPreferences.getString("username", "")
-        val savedEmail = sharedPreferences.getString("email", "")
-        val savedContact = sharedPreferences.getString("contact", "")
+        val loginedUser: User = MainActivity().readUserData()
 
-        binding.settUsername.setText(savedUsername)
-        binding.settUseremail.setText(savedEmail)
-        binding.setUsercontact.setText(savedContact)
+        binding.settUsername.setText(loginedUser.username)
+        binding.settUseremail.setText(loginedUser.email)
+        binding.setUsercontact.setText(loginedUser.userContact)
     }
+
+
 }

@@ -141,9 +141,6 @@ class signup : AppCompatActivity() {
         val useremailText = binding.email.text.toString().trim()
 
 
-        // Timestamp
-        val timestamp = System.currentTimeMillis()
-
         // Get current user UID, since the user is registered, we can get it now
         val uid = firebaseAuth.uid
 
@@ -153,8 +150,9 @@ class signup : AppCompatActivity() {
         accInfo["email"] = useremailText
         accInfo["username"] = usernameText
         accInfo["userContact"] = usercontactText
-        accInfo["profileImage"] = ""
-        accInfo["timestamp"] = timestamp
+        accInfo["cards"] = ""
+        accInfo["addresses"] = ""
+        accInfo["orders"] = ""
 
 
         // Set data to the database

@@ -67,7 +67,7 @@ class HomeFragment : Fragment(), RestaurantListAdapter.RestaurantListClickListen
                         val name = restauranntSnap.child("name").getValue(String::class.java)
                         val address = restauranntSnap.child("address").getValue(String::class.java)
                         val deliveryCharge =
-                            restauranntSnap.child("delivery_charge").getValue(String::class.java)
+                            restauranntSnap.child("delivery_charge").getValue().toString()
                         val image = restauranntSnap.child("image").getValue(String::class.java)
 
                         val restaurant = RestaurantModel(name, address, deliveryCharge, image)

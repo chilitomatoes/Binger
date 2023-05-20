@@ -14,6 +14,11 @@ import com.google.firebase.database.ValueEventListener
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import com.example.binger.databinding.ActivityLoginBinding
+import com.example.binger.model.Address
+import com.example.binger.model.Order
+import com.example.binger.model.PaymentMethod
+import com.example.binger.model.User
+import com.google.gson.Gson
 
 
 class Login : AppCompatActivity() {
@@ -140,12 +145,37 @@ class Login : AppCompatActivity() {
         val ref = FirebaseDatabase.getInstance().getReference("User")
         ref.child(firebaseUser.uid).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+
+
+                var cardList: ArrayList<PaymentMethod> = ArrayList()
+                for(cardSnapShot in snapshot.child("cards").children){
+                    val card = cardSnapShot.getValue(PaymentMethod::class.java)
+                    cardList.add(card!!)
+                }
+
+                var addressList: ArrayList<Address> = ArrayList()
+                for(addressSnapShot in snapshot.child("addresses").children){
+                    val address = addressSnapShot.getValue(Address::class.java)
+                    addressList.add(address!!)
+                }
+
+                var orderList: ArrayList<Order> = ArrayList()
+                for(orderSnapShot in snapshot.child("cards").children){
+                    val order = orderSnapShot.getValue(Order::class.java)
+                    orderList.add(order!!)
+                }
                 val username = snapshot.child("username").value.toString()
                 val email = snapshot.child("email").value.toString()
                 val contact = snapshot.child("userContact").value.toString()
 
+
+                val loginedUser: User = User(firebaseUser.uid,email,username,contact,cardList,addressList,orderList)
+
                 // Save user data to SharedPreferences
-                saveUserData(username, email, contact,)
+                if (loginedUser != null) {
+                    saveUserData(loginedUser)
+                }
+
 
                 // Navigate to the profile screen
                 startActivity(Intent(this@Login,MainActivity::class.java))
@@ -157,16 +187,16 @@ class Login : AppCompatActivity() {
         })
     }
 
-    private fun saveUserData(username: String, email: String, contact: String,) {
+    private fun saveUserData(loginedUser: User) {
         val editor = sharedPreferences.edit()
-        editor.putString("username", username)
-        editor.putString("email", email)
-        editor.putString("contact", contact)
+        val gson = Gson()
+        val json = gson.toJson(loginedUser)
+        editor.putString("loginedUser", json)
         editor.apply()
     }
 
     private fun signUser(){
-        startActivity(Intent(this, MainActivity::class.java))
+        startActivity(Intent(this, signup::class.java))
     }
 
     private fun forgotpass(){

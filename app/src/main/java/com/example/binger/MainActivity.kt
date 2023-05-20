@@ -1,8 +1,14 @@
 package com.example.binger
 
+import android.content.ContentValues
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.preference.PreferenceManager
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -12,15 +18,19 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.binger.databinding.ActivityMainBinding
+import com.example.binger.model.User
 import com.example.binger.ui.menu.menuViewModel
+import com.google.gson.Gson
 
 class MainActivity : AppCompatActivity() {
-
+    private lateinit var sharedPreferences: SharedPreferences
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: menuViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -41,9 +51,17 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
 
+        //val logoutButton: Button = findViewById(R.id.nav_logout)
+        //logoutButton.setOnClickListener {
+        //    startActivity(Intent(this, Login::class.java))
+        //}
 
+    }
 
-
+    public fun readUserData(): User {
+        val json = sharedPreferences.getString("loginedUser", null)
+        val gson = Gson()
+        return gson.fromJson(json, User::class.java)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
