@@ -5,4 +5,35 @@
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.address.MapsFragment" />
+    tools:context=".ui.address.MapsFragment" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation = "horizontal">
+
+        <EditText
+            android:id="@+id/searchEditText"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:hint="Search Location"
+            android:textColor="@color/black"
+            android:background="@color/white"
+            android:inputType="textPersonName"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="55dp"
+            android:textColor="@color/white"
+            android:onClick="searchLocation"
+            android:text="Search"/>
+    </LinearLayout>
+
+
+
+</fragment>
+
+
+
