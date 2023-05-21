@@ -49,8 +49,6 @@ class Login : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-
-
         firebaseAuth = FirebaseAuth.getInstance()
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
