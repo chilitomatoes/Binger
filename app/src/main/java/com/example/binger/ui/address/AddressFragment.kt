@@ -92,6 +92,10 @@ class AddressFragment : Fragment(), MapsFragment.ButtonClickListener {
         bottomSheetDialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         bottomSheetDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
+        bottomSheetDialog.setOnDismissListener(){
+            resetBottomSheetDialog()
+        }
+
         val addressLine: EditText = bottomSheetDialog.findViewById(R.id.addressLineEditText)
         val doorNum: EditText = bottomSheetDialog.findViewById(R.id.doorNumEditText)
         val postalCode: EditText = bottomSheetDialog.findViewById(R.id.postalCodeEditText)
@@ -110,6 +114,7 @@ class AddressFragment : Fragment(), MapsFragment.ButtonClickListener {
                 binding.addressRecyclerView.isVisible = false
             }
         }
+
 
         binding.addAddressFloatingButton.setOnClickListener{
             bottomSheetDialog.show()
@@ -138,6 +143,7 @@ class AddressFragment : Fragment(), MapsFragment.ButtonClickListener {
                     database.child(loginedUser.uid.toString()).child("addresses").child(id).setValue(newAddress)
 
                     bottomSheetDialog.dismiss()
+
                     Toast.makeText(context, "Address Added Successfully", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -232,5 +238,13 @@ class AddressFragment : Fragment(), MapsFragment.ButtonClickListener {
         bottomSheetDialog.findViewById<EditText>(R.id.addressLineEditText).setText(geocoderData!!.addressLine)
         bottomSheetDialog.findViewById<EditText>(R.id.postalCodeEditText).setText(geocoderData!!.postalCode)
         bottomSheetDialog.findViewById<EditText>(R.id.cityEditText).setText(geocoderData!!.city)
+    }
+
+    private fun resetBottomSheetDialog(){
+        bottomSheetDialog.findViewById<EditText>(R.id.addressNameEditText).setText("")
+        bottomSheetDialog.findViewById<EditText>(R.id.addressLineEditText).setText("")
+        bottomSheetDialog.findViewById<EditText>(R.id.postalCodeEditText).setText("")
+        bottomSheetDialog.findViewById<EditText>(R.id.cityEditText).setText("")
+        bottomSheetDialog.findViewById<EditText>(R.id.doorNumEditText).setText("")
     }
 }

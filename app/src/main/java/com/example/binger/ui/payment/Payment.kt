@@ -49,8 +49,6 @@ class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener{
     private lateinit var database: DatabaseReference
     private lateinit var orderHisData: DatabaseReference
 
-    ///////////////////////////////////////////////////////////////////////
-    var tempaddress:Address= Address("AAA","AAA","AA",47830,"banana","URMOM","CHAONIMA",1)
 
 
     lateinit var userData: UserData
@@ -201,7 +199,7 @@ class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener{
 
             if(isDeliveryOn)
             {
-                order= Order(tempaddress,food,restaurantName)
+                order= Order(selectedAddress,food,restaurantName)
             }
             else
             {
@@ -222,7 +220,7 @@ class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener{
 
             if(isDeliveryOn)
             {
-                order= Order(tempaddress,food,restaurantName)
+                order= Order(selectedAddress,food,restaurantName)
                 database.child("Delivery").child(id).setValue(order)
             }
             else
