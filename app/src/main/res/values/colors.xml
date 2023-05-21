@@ -16,5 +16,6 @@
     <color name="lightblue">#03A9F4</color>
     <color name="darkblue3">#23334C</color>
     <color name="yellow">#FFC801</color>
+    <color name="underLine">#BDB8B8</color>
 
 </resources>
