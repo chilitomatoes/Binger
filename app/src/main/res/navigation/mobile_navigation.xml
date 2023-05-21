@@ -39,6 +39,11 @@
         android:label="@string/menu_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
+        android:id="@+id/orderSuccess"
+        android:name="com.example.binger.ui.payment.OrderSuccess"
+        android:label="fragment_order_success"
+        tools:layout="@layout/fragment_order_success" />
+    <fragment
         android:id="@+id/mapsFragment"
         android:name="com.example.binger.ui.map.MapsFragment"
         android:label="fragment_maps"

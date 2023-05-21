@@ -17,6 +17,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.binger.R
@@ -24,7 +25,9 @@ import com.example.binger.adapter.CheckOutSelectionAdapter
 import com.example.binger.databinding.FragmentPaymentBinding
 import com.example.binger.ui.menu.menuViewModel
 import com.example.binger.adapter.OrderPlacementAdapter
+import com.example.binger.model.Address
 import com.example.binger.model.Menus
+import com.example.binger.model.Order
 import com.example.binger.model.PaymentMethod
 import com.example.binger.model.User
 import com.google.firebase.database.DatabaseReference
@@ -38,10 +41,17 @@ class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener{
     private lateinit var loginedUser: User
     private lateinit var selectedCard: PaymentMethod
     var orderPlacement: OrderPlacementAdapter?=null
-    var isDeliveryOn:Boolean=false
+    var isDeliveryOn:Boolean=true
     var restaurantName:String?="null"
     var food:ArrayList<Menus>?= ArrayList()
+    var order: Order=Order()
     private lateinit var database: DatabaseReference
+    private lateinit var orderHisData: DatabaseReference
+
+    ///////////////////////////////////////////////////////////////////////
+    var tempaddress:Address= Address("AAA","AAA","AA",47830,"banana","URMOM","CHAONIMA",1)
+
+
     lateinit var userData: UserData
     lateinit var bottomSheetDialog: Dialog
     private var _binding: FragmentPaymentBinding? = null
@@ -116,6 +126,7 @@ class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener{
 
             recyclerView.adapter = CheckOutSelectionAdapter(requireContext(), "Cards", loginedUser, this)
             bottomSheetDialog.show()
+
         }
 
         binding.buttonPlaceYourOrder.setOnClickListener {
@@ -168,6 +179,47 @@ class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener{
         binding.cartItemsRecyclerView.adapter=orderPlacement
 
         calculateTotal(food!!,binding,viewModel)
+        binding.buttonPlaceYourOrder.setOnClickListener{
+            onPlaceOrderButtonClick(binding)
+
+            restaurantName=viewModel?.restaurantSelected?.name
+            database=FirebaseDatabase.getInstance().getReference("orderPlaced")
+            var id=database.push().key.toString()
+
+            if(isDeliveryOn)
+            {
+                order= Order(tempaddress,food,restaurantName)
+            }
+            else
+            {
+                order= Order(null,food,restaurantName)
+            }
+
+            orderHisData=FirebaseDatabase.getInstance().getReference("User")
+            orderHisData.child(loginedUser.uid!!).child("orders").child(restaurantName!!).child(id).setValue(order)
+
+
+
+
+
+
+
+
+
+
+            if(isDeliveryOn)
+            {
+                order= Order(tempaddress,food,restaurantName)
+                database.child("Delivery").child(id).setValue(order)
+            }
+            else
+            {
+                order= Order(null,food,restaurantName)
+                database.child("PickUp").child(id).setValue(order)
+            }
+
+        }
+
 
     }
 
@@ -197,7 +249,8 @@ class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener{
     private fun onPlaceOrderButtonClick(binding: FragmentPaymentBinding)
     {
 
-        //findNavController().navigate(R.id.OrderSuccess)
+
+        findNavController().navigate(R.id.orderSuccess)
 
     }
 

@@ -34,8 +34,8 @@ class MainActivity : AppCompatActivity() {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -81,11 +81,7 @@ class MainActivity : AppCompatActivity() {
         finish()
     }
 
-    public fun readUserData(): User {
-        val json = sharedPreferences.getString("loginedUser", null)
-        val gson = Gson()
-        return gson.fromJson(json, User::class.java)
-    }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
