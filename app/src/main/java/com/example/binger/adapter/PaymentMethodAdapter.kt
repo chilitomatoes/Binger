@@ -40,7 +40,6 @@ class PaymentMethodAdapter(val context: Context, private val paymentMethodList :
 
         if(currentItem.default==1){
             holder.itemLayout.setBackgroundColor(Color.WHITE)
-            holder.deleteBtn.isVisible = false
         }
 
         holder.deleteBtn.setOnClickListener(){

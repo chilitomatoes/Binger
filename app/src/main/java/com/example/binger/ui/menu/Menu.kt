@@ -73,7 +73,6 @@ class menu : Fragment(), MenuListAdapter.MenuListClickListener {
                     menuList = viewModel.menus
                     menuListAdapter?.updateMenuList(menuList) // Notify the adapter about the updated menuList
 
-
                 }
             }
 
@@ -83,23 +82,17 @@ class menu : Fragment(), MenuListAdapter.MenuListClickListener {
         })
 
 
-
-
         binding.menuRecyclerView.layoutManager= GridLayoutManager(requireContext(),2)
         menuListAdapter= MenuListAdapter(menuList,this,viewModel)
         binding.menuRecyclerView.adapter=menuListAdapter
 
 
         binding.checkOutButton.setOnClickListener{
-            for(item in cusOrder!!)
+            for(item in viewModel!!.menus)
             {
                 number+=item!!.totalInCart
             }
-            if(cusOrder!=null&&cusOrder!!.size<=0)
-            {
-                Toast.makeText(requireContext(), "Please add some item into the Cart", Toast.LENGTH_SHORT).show()
-            }
-            else if(number<=0)
+            if(number<=0)
             {
                 cusOrder=null
 
@@ -111,9 +104,6 @@ class menu : Fragment(), MenuListAdapter.MenuListClickListener {
 
                 findNavController().navigate(R.id.payment)
             }
-
-
-
 
         }
 

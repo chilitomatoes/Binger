@@ -1,5 +1,6 @@
 package com.example.binger
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -22,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 
 class ProfileFragment : Fragment() {
+    private lateinit var loginedUser: User
     private lateinit var sharedPreferences: SharedPreferences
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
@@ -42,8 +44,12 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         firebaseAuth = FirebaseAuth.getInstance()
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        readUserData()
+        loginedUser= readUserData()
         loadUser()
+
+        binding.settUsername.setText(loginedUser.username)
+        binding.setUsercontact.setText((loginedUser.userContact))
+        binding.settUseremail.setText(loginedUser.email)
 
         binding.updateButton.setOnClickListener { updateInfo() }
         binding.setUserpassword.setOnClickListener{
@@ -147,17 +153,14 @@ class ProfileFragment : Fragment() {
                         // Update other fields in Firebase Realtime Database
                         userRef.child("username").setValue(newUsername)
                         userRef.child("userContact").setValue(newContact)
-
-                        // Update SharedPreferences
-                        val editor = sharedPreferences.edit()
-                        editor.putString("username", newUsername)
-                        editor.putString("contact", newContact)
-                        editor.putString("email", newEmail)
-                        editor.apply()
-
+                        loginedUser.username = newUsername
+                        loginedUser.email = newEmail
+                        loginedUser.userContact = newContact
+                        saveUserData(loginedUser)
+                        Log.v(TAG,"--------------------------------"+ loginedUser.username.toString())
                         Toast.makeText(requireContext(), "Changes saved", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(requireContext(), Login::class.java))
-                        requireActivity().finish()
+
+
                     } else {
                         // An error occurred while updating the email
                         Toast.makeText(requireContext(), "Failed to update email", Toast.LENGTH_SHORT).show()
@@ -185,5 +188,11 @@ class ProfileFragment : Fragment() {
         return gson.fromJson(json, User::class.java)
     }
 
-
+    private fun saveUserData(loginedUser: User) {
+        val editor = sharedPreferences.edit()
+        val gson = Gson()
+        val json = gson.toJson(loginedUser)
+        editor.putString("loginedUser", json)
+        editor.apply()
+    }
 }

@@ -42,7 +42,6 @@ class AddressAdapter(val context: Context, private val addressList : ArrayList<A
 
         if(currentItem.default==1){
             holder.itemLayout.setBackgroundColor(Color.WHITE)
-            holder.deleteBtn.isVisible = false
         }
 
         holder.deleteBtn.setOnClickListener(){

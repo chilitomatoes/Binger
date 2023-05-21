@@ -191,13 +191,32 @@ class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener{
 
         calculateTotal(food!!,binding,viewModel)
         binding.buttonPlaceYourOrder.setOnClickListener{
-            onPlaceOrderButtonClick(binding)
-
-            restaurantName=viewModel?.restaurantSelected?.name
-            database=FirebaseDatabase.getInstance().getReference("orderPlaced")
-            dataCollect=FirebaseDatabase.getInstance().getReference("DataCollection")
-            id=database.push().key.toString()
-
+            if(!isDeliveryOn&&selectedCard!=null)
+            {
+                onPlaceOrderButtonClick(binding)
+                restaurantName=viewModel?.restaurantSelected?.name
+                database=FirebaseDatabase.getInstance().getReference("orderPlaced")
+                dataCollect=FirebaseDatabase.getInstance().getReference("DataCollection")
+                id=database.push().key.toString()
+                if(isDeliveryOn)
+                {
+                    order= Order(selectedAddress,food,restaurantName)
+                }
+                else
+                {
+                    order= Order(null,food,restaurantName)
+                }
+                orderHisData=FirebaseDatabase.getInstance().getReference("User")
+                orderHisData.child(loginedUser.uid!!).child("orders").child(restaurantName!!).child(id).setValue(order)
+                fetchDataFromDatabase()
+            }
+            else if(isDeliveryOn&&selectedCard!=null&&selectedAddress!=null)
+            {
+                onPlaceOrderButtonClick(binding)
+                restaurantName=viewModel?.restaurantSelected?.name
+                database=FirebaseDatabase.getInstance().getReference("orderPlaced")
+                dataCollect=FirebaseDatabase.getInstance().getReference("DataCollection")
+                id=database.push().key.toString()
             if(isDeliveryOn)
             {
                 order= Order(selectedAddress,food,restaurantName)
@@ -206,30 +225,15 @@ class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener{
             {
                 order= Order(null,food,restaurantName)
             }
-
             orderHisData=FirebaseDatabase.getInstance().getReference("User")
             orderHisData.child(loginedUser.uid!!).child("orders").child(restaurantName!!).child(id).setValue(order)
-
-
-
-
-
-
             fetchDataFromDatabase()
-
-
-
-
-
-
-
-
-
-
-
+            }
+            else
+            {
+                Toast.makeText(context, "add a address and payment method first", Toast.LENGTH_SHORT).show()
+            }
         }
-
-
     }
 
     private fun fetchDataFromDatabase() {

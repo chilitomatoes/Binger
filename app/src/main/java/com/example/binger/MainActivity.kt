@@ -25,24 +25,27 @@ import com.example.binger.model.User
 import com.example.binger.ui.address.AddressFragment
 import com.example.binger.ui.menu.menuViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 import com.google.gson.Gson
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var database: DatabaseReference
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var bindingNAVHEAD: NavHeaderMainBinding
     private lateinit var binding: ActivityMainBinding
-    private lateinit var  firebaseAuth: FirebaseAuth
+    private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var viewModel: menuViewModel
     private lateinit var loginedUser: User
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        database = FirebaseDatabase.getInstance().getReference("User")
         firebaseAuth = FirebaseAuth.getInstance()
 
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        loginedUser=readUserData()
+
 
         binding = ActivityMainBinding.inflate(layoutInflater)
 
@@ -80,8 +83,20 @@ class MainActivity : AppCompatActivity() {
         val navViewHeaderBinding : NavHeaderMainBinding = NavHeaderMainBinding.bind(viewHeader)
 
 
-        navViewHeaderBinding.HEaderEmail.text=loginedUser.email
-        navViewHeaderBinding.HEaderName.text=loginedUser.username
+        database.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                loginedUser=readUserData()
+                Log.v(ContentValues.TAG,"--------------------------------"+ loginedUser.username.toString())
+                navViewHeaderBinding.HEaderEmail.text=loginedUser.email
+                navViewHeaderBinding.HEaderName.text=loginedUser.username
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+
 
 
     }
