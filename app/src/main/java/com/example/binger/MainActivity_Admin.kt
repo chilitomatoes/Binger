@@ -1,10 +1,13 @@
 package com.example.binger
 
+import android.app.PendingIntent.getActivity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
@@ -41,7 +44,7 @@ class MainActivity_Admin : AppCompatActivity() {
                 R.id.nav_addFood -> replaceFragment(AddFoodFragment(), it.title.toString())
                 R.id.nav_editFood -> replaceFragment(UpdateFoodFragment(), it.title.toString())
                 R.id.nav_delFood -> replaceFragment(DeleteFoodFragment(), it.title.toString())
-                R.id.nav_adminLogOut -> Toast.makeText(applicationContext, "Clicked admin logout", Toast.LENGTH_SHORT).show()
+                R.id.nav_adminLogOut -> startActivity(Intent(this, Login::class.java))
             }
             true
         }
@@ -55,6 +58,7 @@ class MainActivity_Admin : AppCompatActivity() {
         drawerLayout.closeDrawers()
         setTitle(title)
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (toggle.onOptionsItemSelected(item)){
