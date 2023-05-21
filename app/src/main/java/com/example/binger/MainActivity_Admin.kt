@@ -2,8 +2,10 @@ package com.example.binger
 
 import android.app.PendingIntent.getActivity
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -16,13 +18,15 @@ class MainActivity_Admin : AppCompatActivity() {
 
     lateinit var toggle: ActionBarDrawerToggle
     lateinit var drawerLayout: DrawerLayout
-
+    private lateinit var sharedPreferences: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_admin)
 
         drawerLayout = findViewById(R.id.drawerLayout)
         val navView : NavigationView = findViewById(R.id.nav_view)
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
         toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
         drawerLayout.addDrawerListener(toggle)
@@ -44,10 +48,21 @@ class MainActivity_Admin : AppCompatActivity() {
                 R.id.nav_addFood -> replaceFragment(AddFoodFragment(), it.title.toString())
                 R.id.nav_editFood -> replaceFragment(UpdateFoodFragment(), it.title.toString())
                 R.id.nav_delFood -> replaceFragment(DeleteFoodFragment(), it.title.toString())
-                R.id.nav_adminLogOut -> startActivity(Intent(this, Login::class.java))
+                R.id.nav_adminLogOut -> logout()
             }
             true
         }
+    }
+
+    private fun logout() {
+        // Clear the login status
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("isLoggedIn", false)
+        editor.apply()
+
+        // Navigate back to the login screen
+        startActivity(Intent(this, Login::class.java))
+        finish()
     }
 
     private fun replaceFragment(fragment : Fragment, title : String) {

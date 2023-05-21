@@ -42,6 +42,8 @@ class Login : AppCompatActivity() {
 
         supportActionBar?.hide()
 
+
+
         firebaseAuth = FirebaseAuth.getInstance()
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
@@ -51,6 +53,14 @@ class Login : AppCompatActivity() {
             // User is already signed in, navigate to the desired screen
             startActivity(Intent(this@Login,MainActivity::class.java))
             finish()
+        }
+
+        val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
+
+        if (isLoggedIn) {
+            startActivity(Intent(this, MainActivity_Admin::class.java))
+            finish()
+            return
         }
 
         binding.loginButton2.setOnClickListener {loginUser()}
@@ -132,6 +142,9 @@ class Login : AppCompatActivity() {
                 }
 
                 if (isAdmin) {
+                    val editor = sharedPreferences.edit()
+                    editor.putBoolean("isLoggedIn", true)
+                    editor.apply()
                     startActivity(Intent(this@Login, MainActivity_Admin::class.java))
                     finish()
                 } else {
