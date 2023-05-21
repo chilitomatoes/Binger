@@ -31,7 +31,7 @@ import com.google.gson.Gson
 import kotlin.math.log
 
 
-class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener,callBack{
+class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener{
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var loginedUser: User
     var orderPlacement: OrderPlacementAdapter?=null
@@ -43,7 +43,7 @@ class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener,callBack{
     var order: Order=Order()
     private lateinit var database: DatabaseReference
     private lateinit var orderHisData: DatabaseReference
-    var addressCount:Long=0
+    var addressCount:Long=1
     private lateinit var dataCollect: DatabaseReference
 
     ///////////////////////////////////////////////////////////////////////
@@ -233,29 +233,34 @@ class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener,callBack{
     }
 
     private fun fetchDataFromDatabase() {
+        var isDataFetched = false  // Flag to track if data has been fetched
+
         dataCollect.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (data in dataSnapshot.child(restaurantName!!).children) {
-                        if (data.key.toString() == selectedAddress!!.city.toString()) {
-                            addressCount = data.getValue() as Long
-                            Log.v(TAG, addressCount.toString())
+                if (!isDataFetched) {  // Check if data has been fetched before
+                    if (dataSnapshot.exists()) {
 
-                            addressCount++
-                            Log.v(TAG, addressCount.toString())
-                        } else {
-                            addressCount++
+                        for (data in dataSnapshot.child(restaurantName!!).children) {
+                            if (data.key.toString() == selectedAddress!!.city.toString()) {
+                                addressCount = data.getValue() as Long
+                                Log.v(TAG, addressCount.toString())
+
+                                addressCount++
+                                Log.v(TAG, addressCount.toString())
+                            }
+
                         }
                     }
-                }
 
-                // Continue with your code logic here after fetching the data
-                if (isDeliveryOn) {
-                    Log.v("asds", addressCount.toString())
-                    database.child("Delivery").child(id).setValue(order)
-                    dataCollect.child(restaurantName!!).child(selectedAddress!!.city!!).setValue(addressCount)
-                } else {
-                    database.child("PickUp").child(id).setValue(order)
+                    if (isDeliveryOn) {
+                        Log.v("asds", addressCount.toString())
+                        database.child("Delivery").child(id).setValue(order)
+                        dataCollect.child(restaurantName!!).child(selectedAddress!!.city!!).setValue(addressCount)
+                    } else {
+                        database.child("PickUp").child(id).setValue(order)
+                    }
+
+                    isDataFetched = true  // Set the flag to indicate data has been fetched
                 }
             }
 
@@ -320,23 +325,7 @@ class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener,callBack{
 
         bottomSheetDialog.dismiss()
     }
-    override fun onDataChangeCallback(addressCount: Long) {
-        if(true)
-        {
-            if(isDeliveryOn)
-            {
-                Log.v("asds",addressCount.toString())
-                database.child("Delivery").child(id).setValue(order)
-                dataCollect.child(restaurantName!!).child(selectedAddress!!.city!!).setValue(addressCount)
 
-
-            }
-            else
-            {
-                database.child("PickUp").child(id).setValue(order)
-            }
-        }
-    }
 
 
 }

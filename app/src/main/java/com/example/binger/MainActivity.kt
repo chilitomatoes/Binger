@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.TextView
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -18,6 +19,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.binger.databinding.ActivityMainBinding
+import com.example.binger.databinding.NavHeaderMainBinding
 import com.example.binger.model.GeocoderData
 import com.example.binger.model.User
 import com.example.binger.ui.address.AddressFragment
@@ -28,9 +30,11 @@ import com.google.gson.Gson
 class MainActivity : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var bindingNAVHEAD: NavHeaderMainBinding
     private lateinit var binding: ActivityMainBinding
     private lateinit var  firebaseAuth: FirebaseAuth
     private lateinit var viewModel: menuViewModel
+    private lateinit var loginedUser: User
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -38,8 +42,16 @@ class MainActivity : AppCompatActivity() {
 
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        loginedUser=readUserData()
+
         binding = ActivityMainBinding.inflate(layoutInflater)
+
+        bindingNAVHEAD= NavHeaderMainBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
+
+
+
 
         setSupportActionBar(binding.appBarMain.toolbar)
 
@@ -64,6 +76,12 @@ class MainActivity : AppCompatActivity() {
             logout()
             true
         }
+        val viewHeader = binding.navView.getHeaderView(0)
+        val navViewHeaderBinding : NavHeaderMainBinding = NavHeaderMainBinding.bind(viewHeader)
+
+
+        navViewHeaderBinding.HEaderEmail.text=loginedUser.email
+        navViewHeaderBinding.HEaderName.text=loginedUser.username
 
 
 
@@ -101,6 +119,20 @@ class MainActivity : AppCompatActivity() {
         //    findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.nav_payment)
         //}
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun saveUserData(loginedUser: User) {
+        val editor = sharedPreferences.edit()
+        val gson = Gson()
+        val json = gson.toJson(loginedUser)
+        editor.putString("loginedUser", json)
+        editor.apply()
+    }
+
+    private fun readUserData(): User {
+        val json = sharedPreferences.getString("loginedUser", null)
+        val gson = Gson()
+        return gson.fromJson(json, User::class.java)
     }
 
 }
