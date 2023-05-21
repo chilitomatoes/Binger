@@ -49,8 +49,6 @@ class Login : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-
-
         firebaseAuth = FirebaseAuth.getInstance()
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
@@ -183,7 +181,7 @@ class Login : AppCompatActivity() {
                         isAdmin = true
                     }
                 }
-//------------------------------------------------------------------------------------------------------------------------------- Login to admin
+
                 if (isAdmin) {
                     val editor = sharedPreferences.edit()
                     editor.putBoolean("isLoggedIn", true)

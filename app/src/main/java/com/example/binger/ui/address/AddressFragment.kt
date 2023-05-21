@@ -115,7 +115,6 @@ class AddressFragment : Fragment(), MapsFragment.ButtonClickListener {
             }
         }
 
-
         binding.addAddressFloatingButton.setOnClickListener{
             bottomSheetDialog.show()
 

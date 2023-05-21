@@ -184,6 +184,7 @@ class signup : AppCompatActivity() {
         val ref = FirebaseDatabase.getInstance().getReference("User")
         ref.child(uid!!).setValue(accInfo).addOnSuccessListener {
             Toast.makeText(this, "Account Created", Toast.LENGTH_SHORT).show()
+            firebaseAuth.signOut()
             startActivity(Intent(this, Login::class.java))
             finish()
         }

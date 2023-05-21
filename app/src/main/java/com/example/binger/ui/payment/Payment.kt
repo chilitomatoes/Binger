@@ -25,13 +25,8 @@ import com.example.binger.adapter.CheckOutSelectionAdapter
 import com.example.binger.databinding.FragmentPaymentBinding
 import com.example.binger.ui.menu.menuViewModel
 import com.example.binger.adapter.OrderPlacementAdapter
-import com.example.binger.model.Address
-import com.example.binger.model.Menus
-import com.example.binger.model.Order
-import com.example.binger.model.PaymentMethod
-import com.example.binger.model.User
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.example.binger.model.*
+import com.google.firebase.database.*
 import com.google.gson.Gson
 import kotlin.math.log
 
@@ -48,17 +43,22 @@ class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener{
     var order: Order=Order()
     private lateinit var database: DatabaseReference
     private lateinit var orderHisData: DatabaseReference
+    var addressCount:Long=1
+    private lateinit var dataCollect: DatabaseReference
 
+    ///////////////////////////////////////////////////////////////////////
 
 
     lateinit var userData: UserData
     lateinit var bottomSheetDialog: Dialog
     private var _binding: FragmentPaymentBinding? = null
     private val binding get() = _binding!!
-
+    var id:String="null"
     private lateinit var viewModel: menuViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var placeOrderButton: Button
+
+    var loadFin=false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -195,7 +195,8 @@ class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener{
 
             restaurantName=viewModel?.restaurantSelected?.name
             database=FirebaseDatabase.getInstance().getReference("orderPlaced")
-            var id=database.push().key.toString()
+            dataCollect=FirebaseDatabase.getInstance().getReference("DataCollection")
+            id=database.push().key.toString()
 
             if(isDeliveryOn)
             {
@@ -214,24 +215,59 @@ class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener{
 
 
 
+            fetchDataFromDatabase()
 
 
 
 
-            if(isDeliveryOn)
-            {
-                order= Order(selectedAddress,food,restaurantName)
-                database.child("Delivery").child(id).setValue(order)
-            }
-            else
-            {
-                order= Order(null,food,restaurantName)
-                database.child("PickUp").child(id).setValue(order)
-            }
+
+
+
+
+
+
 
         }
 
 
+    }
+
+    private fun fetchDataFromDatabase() {
+        var isDataFetched = false  // Flag to track if data has been fetched
+
+        dataCollect.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (!isDataFetched) {  // Check if data has been fetched before
+                    if (dataSnapshot.exists()) {
+
+                        for (data in dataSnapshot.child(restaurantName!!).children) {
+                            if (data.key.toString() == selectedAddress!!.city.toString()) {
+                                addressCount = data.getValue() as Long
+                                Log.v(TAG, addressCount.toString())
+
+                                addressCount++
+                                Log.v(TAG, addressCount.toString())
+                            }
+
+                        }
+                    }
+
+                    if (isDeliveryOn) {
+                        Log.v("asds", addressCount.toString())
+                        database.child("Delivery").child(id).setValue(order)
+                        dataCollect.child(restaurantName!!).child(selectedAddress!!.city!!).setValue(addressCount)
+                    } else {
+                        database.child("PickUp").child(id).setValue(order)
+                    }
+
+                    isDataFetched = true  // Set the flag to indicate data has been fetched
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle any errors
+            }
+        })
     }
 
 
@@ -289,6 +325,7 @@ class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener{
 
         bottomSheetDialog.dismiss()
     }
+
 
 
 }
