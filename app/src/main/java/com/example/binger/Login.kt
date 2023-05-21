@@ -14,7 +14,14 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.util.Log
+import android.view.View
+import androidx.core.content.ContextCompat
 import com.example.binger.databinding.ActivityLoginBinding
 import com.example.binger.model.Address
 import com.example.binger.model.Order
@@ -63,17 +70,53 @@ class Login : AppCompatActivity() {
             return
         }
 
+        val forgotPasswordText = "Forgot Password?"
+        val spannableString = SpannableString(forgotPasswordText)
+        val clickableSpan = object : ClickableSpan() {
+            override fun onClick(view: View) {
+                // Start the desired activity here
+                val intent = Intent(this@Login, forgotpass::class.java)
+                startActivity(intent)
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                ds.color = ContextCompat.getColor(this@Login, R.color.red) // Set custom color
+            }
+        }
+
+        spannableString.setSpan(clickableSpan, 0, forgotPasswordText.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        binding.forgotBtn.text = spannableString
+        binding.forgotBtn.movementMethod = LinkMovementMethod.getInstance()
+
+
         binding.loginButton2.setOnClickListener {loginUser()}
 
 
+        val signUpText = "Don't have an account? Sign up"
+        val spannableStringSign = SpannableString(signUpText)
+        val clickableSpanSign = object : ClickableSpan() {
+            override fun onClick(view: View) {
+                // Start the desired activity here
+                val intent = Intent(this@Login, signup::class.java)
+                startActivity(intent)
+            }
 
-        binding.signupBtn.setOnClickListener {
-            signUser()
+            override fun updateDrawState(ds: TextPaint) {
+                ds.isUnderlineText = false // Remove the underline
+                ds.color = ContextCompat.getColor(this@Login, R.color.red) // Set custom color
+            }
         }
 
-        binding.forgotBtn.setOnClickListener() {
+        spannableStringSign.setSpan(clickableSpanSign, 23, signUpText.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        binding.signupBtn.text =  spannableStringSign
+        binding.signupBtn.movementMethod = LinkMovementMethod.getInstance()
+
+
+        /*binding.forgotBtn.setOnClickListener() {
             forgotpass()
-        }
+        }*/
 
         setupFieldValidations()
     }

@@ -3,9 +3,16 @@ package com.example.binger
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.util.Log
 import android.util.Patterns
+import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import com.example.binger.databinding.ActivitySignupBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -22,11 +29,29 @@ class signup : AppCompatActivity() {
         supportActionBar?.hide()
         firebaseAuth = FirebaseAuth.getInstance()
 
+        val loginText = "Already Registered , Sign In !"
+        val spannableStringSign = SpannableString(loginText)
+        val clickableSpanSign = object : ClickableSpan() {
+            override fun onClick(view: View) {
+                // Start the desired activity here
+                val intent = Intent(this@signup, Login::class.java)
+                startActivity(intent)
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                ds.isUnderlineText = false // Remove the underline
+                ds.color = ContextCompat.getColor(this@signup, R.color.red) // Set custom color
+            }
+        }
+
+        spannableStringSign.setSpan(clickableSpanSign, 20, loginText.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        binding.loginBtn.text =  spannableStringSign
+        binding.loginBtn.movementMethod = LinkMovementMethod.getInstance()
+
         binding.submitButton.setOnClickListener { createUserAccount() }
 
-        binding.loginBtn.setOnClickListener {
-            loginUser()
-        }
+
 
         setupFieldValidations()
     }
