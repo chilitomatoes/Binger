@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.text.Editable
+import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.binger.databinding.FragmentProfileBinding
 import com.example.binger.model.User
 
@@ -40,10 +42,13 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         firebaseAuth = FirebaseAuth.getInstance()
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
-
+        readUserData()
         loadUser()
 
         binding.updateButton.setOnClickListener { updateInfo() }
+        binding.setUserpassword.setOnClickListener{
+            findNavController().navigate(R.id.modifyPassFragment)
+        }
 
         setupFieldValidations()
     }
@@ -165,11 +170,19 @@ class ProfileFragment : Fragment() {
     }
 
     private fun loadUser() {
-        val loginedUser: User = MainActivity().readUserData()
+        val loginedUser: User = readUserData()
+        Log.v("WREEEEEEEEEEEEEEEEEEEEEEEEEEEEE",loginedUser.toString())
 
         binding.settUsername.setText(loginedUser.username)
         binding.settUseremail.setText(loginedUser.email)
         binding.setUsercontact.setText(loginedUser.userContact)
+    }
+
+    public fun readUserData(): User {
+        val gson = Gson()
+        val json = sharedPreferences.getString("loginedUser", null)
+
+        return gson.fromJson(json, User::class.java)
     }
 
 

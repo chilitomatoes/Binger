@@ -3,8 +3,15 @@ package com.example.binger
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.util.Patterns
+import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import com.example.binger.databinding.ActivityForgotpassBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -26,21 +33,34 @@ class forgotpass : AppCompatActivity() {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
-        binding.backLoginBtn.setOnClickListener {
-            backToLogin()
-        }
-
         binding.resetButton.setOnClickListener {
             recoverPass()
         }
+
+        val backloginText = "Back to Login"
+        val spannableString = SpannableString(backloginText)
+        val clickableSpan = object : ClickableSpan() {
+            override fun onClick(view: View) {
+                // Start the desired activity here
+                val intent = Intent(this@forgotpass, Login::class.java)
+                startActivity(intent)
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                ds.isUnderlineText = false // Remove the underline
+                ds.color = ContextCompat.getColor(this@forgotpass, R.color.red) // Set custom color
+            }
+        }
+
+        spannableString.setSpan(clickableSpan, 0, backloginText.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        binding.backLoginBtn.text =  spannableString
+        binding.backLoginBtn.movementMethod = LinkMovementMethod.getInstance()
 
         setupFieldValidations()
 
     }
 
-    private fun backToLogin(){
-        startActivity(Intent(this, Login::class.java))
-    }
 
     private fun setupFieldValidations() {
 
@@ -76,7 +96,7 @@ class forgotpass : AppCompatActivity() {
             .addOnFailureListener { e->
                 //failed
 
-                Toast.makeText(this, "Failed to send die to ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Failed to send due to ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
 }

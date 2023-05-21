@@ -70,6 +70,8 @@
     <string name="user_age_user">TextView</string>
     <string name="user_pro">TODO</string>
     <string name="user_bg">TODO</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 
 
     <string name="map_api_key">AIzaSyBzuVq6wnf2ZmW4vVIloarmXT4e2_NqDpY</string>

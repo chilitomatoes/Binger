@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item android:title="Restaurant">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_showRes"
+                    android:title="Restaurant List"/>
+
+                <item
+                    android:id="@+id/nav_addRes"
+                    android:title="Add Restaurant"/>
+
+                <item
+                    android:id="@+id/nav_editRes"
+                    android:title="Edit Restaurant"/>
+
+                <item
+                    android:id="@+id/nav_delRes"
+                    android:title="Delete Restaurant"/>
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="Food">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_showFood"
+                    android:title="Food List"/>
+
+                <item
+                    android:id="@+id/nav_addFood"
+                    android:title="Add Food"/>
+
+                <item
+                    android:id="@+id/nav_editFood"
+                    android:title="Edit Food"/>
+
+                <item
+                    android:id="@+id/nav_delFood"
+                    android:title="Delete Food"/>
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="Profile">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_adminLogOut"
+                    android:title="Log Out"/>
+            </group>
+        </menu>
+    </item>
+</menu>

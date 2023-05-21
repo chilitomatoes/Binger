@@ -14,7 +14,14 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.util.Log
+import android.view.View
+import androidx.core.content.ContextCompat
 import com.example.binger.databinding.ActivityLoginBinding
 import com.example.binger.model.Address
 import com.example.binger.model.Order
@@ -42,19 +49,74 @@ class Login : AppCompatActivity() {
 
         supportActionBar?.hide()
 
+
+
         firebaseAuth = FirebaseAuth.getInstance()
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
+        val currentUser = firebaseAuth.currentUser
+        if (currentUser != null) {
+            // User is already signed in, navigate to the desired screen
+            startActivity(Intent(this@Login,MainActivity::class.java))
+            finish()
+        }
+
+        val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
+
+        if (isLoggedIn) {
+            startActivity(Intent(this, MainActivity_Admin::class.java))
+            finish()
+            return
+        }
+
+        val forgotPasswordText = "Forgot Password?"
+        val spannableString = SpannableString(forgotPasswordText)
+        val clickableSpan = object : ClickableSpan() {
+            override fun onClick(view: View) {
+                // Start the desired activity here
+                val intent = Intent(this@Login, forgotpass::class.java)
+                startActivity(intent)
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                ds.color = ContextCompat.getColor(this@Login, R.color.red) // Set custom color
+            }
+        }
+
+        spannableString.setSpan(clickableSpan, 0, forgotPasswordText.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        binding.forgotBtn.text = spannableString
+        binding.forgotBtn.movementMethod = LinkMovementMethod.getInstance()
+
+
         binding.loginButton2.setOnClickListener {loginUser()}
 
-        binding.signupBtn.setOnClickListener {
-            signUser()
+
+        val signUpText = "Don't have an account? Sign up"
+        val spannableStringSign = SpannableString(signUpText)
+        val clickableSpanSign = object : ClickableSpan() {
+            override fun onClick(view: View) {
+                // Start the desired activity here
+                val intent = Intent(this@Login, signup::class.java)
+                startActivity(intent)
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                ds.isUnderlineText = false // Remove the underline
+                ds.color = ContextCompat.getColor(this@Login, R.color.red) // Set custom color
+            }
         }
 
-        binding.forgotBtn.setOnClickListener() {
+        spannableStringSign.setSpan(clickableSpanSign, 23, signUpText.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        binding.signupBtn.text =  spannableStringSign
+        binding.signupBtn.movementMethod = LinkMovementMethod.getInstance()
+
+
+        /*binding.forgotBtn.setOnClickListener() {
             forgotpass()
-        }
+        }*/
 
         setupFieldValidations()
     }
@@ -123,7 +185,10 @@ class Login : AppCompatActivity() {
                 }
 //------------------------------------------------------------------------------------------------------------------------------- Login to admin
                 if (isAdmin) {
-                    startActivity(Intent(this@Login, MainActivity::class.java))
+                    val editor = sharedPreferences.edit()
+                    editor.putBoolean("isLoggedIn", true)
+                    editor.apply()
+                    startActivity(Intent(this@Login, MainActivity_Admin::class.java))
                     finish()
                 } else {
                     // Admin credentials not found or didn't match
@@ -145,6 +210,7 @@ class Login : AppCompatActivity() {
             .addOnSuccessListener {
                 // Login success
                 checkUser()
+
             }
             .addOnFailureListener { e ->
                 // Failed login

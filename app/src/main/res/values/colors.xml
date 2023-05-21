@@ -9,12 +9,14 @@
     <color name="white">#FFFFFFFF</color>
     <color name="light1">#FBD1A2</color>
     <color name="pink">#FB9BB9</color>
-    <color name="darkblue">#3C1053FF</color>
+    <color name="darkblue">#00008B</color>
     <color name="purple">#ADEFD1FF</color>
     <color name="darkblue2">#7f6c54</color>
     <color name="grey">#6A8A82</color>
     <color name="lightblue">#03A9F4</color>
     <color name="darkblue3">#23334C</color>
     <color name="yellow">#FFC801</color>
+    <color name="underLine">#BDB8B8</color>
+    <color name="red"> #FF0000</color>
 
 </resources>
