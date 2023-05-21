@@ -20,15 +20,19 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.binger.databinding.ActivityMainBinding
 import com.example.binger.model.User
 import com.example.binger.ui.menu.menuViewModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 
 class MainActivity : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private lateinit var  firebaseAuth: FirebaseAuth
     private lateinit var viewModel: menuViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        firebaseAuth = FirebaseAuth.getInstance()
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
@@ -36,6 +40,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.appBarMain.toolbar)
+
+
 
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
@@ -51,11 +57,28 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
 
-        //val logoutButton: Button = findViewById(R.id.nav_logout)
-        //logoutButton.setOnClickListener {
-        //    startActivity(Intent(this, Login::class.java))
-        //}
+        val logoutButton: MenuItem = navView.menu.findItem(R.id.nav_logout)
+        logoutButton.setOnMenuItemClickListener {
+            logout()
+            true
+        }
 
+
+
+    }
+
+    private fun logout() {
+        // Clear shared preferences data
+        val editor = sharedPreferences.edit()
+        editor.clear()
+        editor.apply()
+
+        // Sign out the user from Firebase Auth
+        firebaseAuth.signOut()
+
+        // Navigate back to the login screen
+        startActivity(Intent(this, Login::class.java))
+        finish()
     }
 
     public fun readUserData(): User {
