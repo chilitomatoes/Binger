@@ -31,6 +31,8 @@ class Login : AppCompatActivity() {
 
     private lateinit var sharedPreferences: SharedPreferences
 
+    private val adminRef = FirebaseDatabase.getInstance().getReference("Admin")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -106,14 +108,47 @@ class Login : AppCompatActivity() {
         //3 Login Firebase Auth
         //show progress
 
-        firebaseAuth.signInWithEmailAndPassword(useremailText, passwordText)
+        adminRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var isAdmin = false
+                if (dataSnapshot.exists()) {
+                    val adminEmail = dataSnapshot.child("email").getValue().toString()
+                    Log.v("@", adminEmail)
+                    val adminPassword = dataSnapshot.child("password").getValue().toString()
+                    Log.v("@", adminPassword)
+
+                    if (adminEmail == useremailText && adminPassword == passwordText) {
+                        isAdmin = true
+                    }
+                }
+
+                if (isAdmin) {
+                    startActivity(Intent(this@Login, MainActivity::class.java))
+                    finish()
+                } else {
+                    // Admin credentials not found or didn't match
+                    // Continue with regular user login process
+                    loginUserWithFirebaseAuth(useremailText, passwordText)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle error here if needed
+            }
+        })
+
+
+    }
+
+    private fun loginUserWithFirebaseAuth(email: String, password: String) {
+        firebaseAuth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
-                //login success
+                // Login success
                 checkUser()
             }
-            .addOnFailureListener{ e->
-                //failed login
-                Toast.makeText(this,"Login failed due to ${e.message}", Toast.LENGTH_SHORT).show()
+            .addOnFailureListener { e ->
+                // Failed login
+                Toast.makeText(this, "Login failed due to ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
 
