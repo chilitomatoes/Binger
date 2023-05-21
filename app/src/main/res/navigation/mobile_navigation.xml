@@ -15,7 +15,11 @@
         android:id="@+id/nav_address"
         android:name="com.example.binger.ui.address.AddressFragment"
         android:label="@string/menu_address"
-        tools:layout="@layout/fragment_address" />
+        tools:layout="@layout/fragment_address" >
+        <action
+            android:id="@+id/action_openMap"
+            app:destination="@id/mapsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_payment"
@@ -25,14 +29,13 @@
     <fragment
         android:id="@+id/menu"
         android:name="com.example.binger.ui.menu.menu"
-        android:label="fragment_menu"
+        android:label="@string/menu_menu"
         tools:layout="@layout/fragment_menu" />
     <fragment
         android:id="@+id/payment"
         android:name="com.example.binger.ui.payment.Payment"
-        android:label="fragment_payment"
-        tools:layout="@layout/fragment_payment"
-        />
+        android:label="@string/menu_checkout"
+        tools:layout="@layout/fragment_payment" />
     <fragment
         android:id="@+id/nav_profile"
         android:name="com.example.binger.ProfileFragment"
@@ -46,7 +49,7 @@
     <fragment
         android:id="@+id/mapsFragment"
         android:name="com.example.binger.ui.map.MapsFragment"
-        android:label="fragment_maps"
+        android:label="Map"
         tools:layout="@layout/fragment_maps" />
     <fragment
         android:id="@+id/modifyPassFragment"

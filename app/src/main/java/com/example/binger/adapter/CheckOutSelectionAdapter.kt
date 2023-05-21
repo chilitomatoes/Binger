@@ -1,6 +1,8 @@
 package com.example.binger.adapter
 
+import android.content.ContentValues.TAG
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,15 +33,16 @@ class CheckOutSelectionAdapter(val context: Context, val mode: String, val login
             }
 
         }else{
-            val currentItem = loginedUser.addresses?.get(position)
-            if (currentItem != null) {
-                holder.selectionName.text = currentItem.name
-                holder.selection.text = currentItem.line1
+            if(loginedUser.addresses?.size ?: null != 0){
+                val currentItem = loginedUser.addresses!![position]
+                holder.selectionName.text = currentItem?.name
+                holder.selection.text = currentItem?.addressLine.toString()
             }
         }
 
         holder.itemView.setOnClickListener{
-            listener.onItemSelected(position)
+            listener.onItemSelected(position, mode)
+            Log.v(TAG,"-----------------------------------------" +mode.toString())
         }
     }
 
@@ -60,6 +63,6 @@ class CheckOutSelectionAdapter(val context: Context, val mode: String, val login
     }
 
     interface AdapterListener {
-        fun onItemSelected(selectedIndex: Int?)
+        fun onItemSelected(selectedIndex: Int?, mode: String)
     }
 }

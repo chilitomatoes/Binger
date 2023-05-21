@@ -25,40 +25,40 @@ import com.example.binger.adapter.CheckOutSelectionAdapter
 import com.example.binger.databinding.FragmentPaymentBinding
 import com.example.binger.ui.menu.menuViewModel
 import com.example.binger.adapter.OrderPlacementAdapter
-import com.example.binger.model.Address
-import com.example.binger.model.Menus
-import com.example.binger.model.Order
-import com.example.binger.model.PaymentMethod
-import com.example.binger.model.User
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.example.binger.model.*
+import com.google.firebase.database.*
 import com.google.gson.Gson
 import kotlin.math.log
 
 
-class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener{
+class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener,callBack{
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var loginedUser: User
-    private lateinit var selectedCard: PaymentMethod
     var orderPlacement: OrderPlacementAdapter?=null
     var isDeliveryOn:Boolean=true
+    private var selectedCard: PaymentMethod? =null
+    private var selectedAddress: Address? = null
     var restaurantName:String?="null"
     var food:ArrayList<Menus>?= ArrayList()
     var order: Order=Order()
     private lateinit var database: DatabaseReference
     private lateinit var orderHisData: DatabaseReference
+    var addressCount:Long=0
+    private lateinit var dataCollect: DatabaseReference
 
     ///////////////////////////////////////////////////////////////////////
-    var tempaddress:Address= Address("AAA","AAA","AA",47830,"banana","URMOM","CHAONIMA",1)
 
 
     lateinit var userData: UserData
     lateinit var bottomSheetDialog: Dialog
     private var _binding: FragmentPaymentBinding? = null
     private val binding get() = _binding!!
-
+    var id:String="null"
     private lateinit var viewModel: menuViewModel
     private lateinit var recyclerView: RecyclerView
+    private lateinit var placeOrderButton: Button
+
+    var loadFin=false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -82,15 +82,26 @@ class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         loginedUser= readUserData()
 
         for(card in loginedUser.cards!!){
             if(card.default==1){
                 selectedCard = card
-                binding.defaultCardNameTextView.text = selectedCard.holderName
-                binding.defaultCardNumTextView.text = selectedCard.cardNum.toString()
+                binding.defaultCardNameTextView.text = selectedCard!!.holderName
+                binding.defaultCardNumTextView.text = selectedCard!!.cardNum.toString()
             }
+        }
+
+        for(address in loginedUser.addresses!!){
+            if(address.default==1){
+                selectedAddress = address
+                binding.defaultAddressNameTextView.text = selectedAddress!!.name
+            }
+        }
+
+        placeOrderButton = binding.buttonPlaceYourOrder as Button
+        if(selectedAddress == null && selectedCard == null){
+
         }
 
         for(item in viewModel.menus!!)
@@ -184,11 +195,12 @@ class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener{
 
             restaurantName=viewModel?.restaurantSelected?.name
             database=FirebaseDatabase.getInstance().getReference("orderPlaced")
-            var id=database.push().key.toString()
+            dataCollect=FirebaseDatabase.getInstance().getReference("DataCollection")
+            id=database.push().key.toString()
 
             if(isDeliveryOn)
             {
-                order= Order(tempaddress,food,restaurantName)
+                order= Order(selectedAddress,food,restaurantName)
             }
             else
             {
@@ -203,24 +215,54 @@ class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener{
 
 
 
+            fetchDataFromDatabase()
 
 
 
 
-            if(isDeliveryOn)
-            {
-                order= Order(tempaddress,food,restaurantName)
-                database.child("Delivery").child(id).setValue(order)
-            }
-            else
-            {
-                order= Order(null,food,restaurantName)
-                database.child("PickUp").child(id).setValue(order)
-            }
+
+
+
+
+
+
 
         }
 
 
+    }
+
+    private fun fetchDataFromDatabase() {
+        dataCollect.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (data in dataSnapshot.child(restaurantName!!).children) {
+                        if (data.key.toString() == selectedAddress!!.city.toString()) {
+                            addressCount = data.getValue() as Long
+                            Log.v(TAG, addressCount.toString())
+
+                            addressCount++
+                            Log.v(TAG, addressCount.toString())
+                        } else {
+                            addressCount++
+                        }
+                    }
+                }
+
+                // Continue with your code logic here after fetching the data
+                if (isDeliveryOn) {
+                    Log.v("asds", addressCount.toString())
+                    database.child("Delivery").child(id).setValue(order)
+                    dataCollect.child(restaurantName!!).child(selectedAddress!!.city!!).setValue(addressCount)
+                } else {
+                    database.child("PickUp").child(id).setValue(order)
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle any errors
+            }
+        })
     }
 
 
@@ -261,11 +303,39 @@ class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener{
         return gson.fromJson(json, User::class.java)
     }
 
-    override fun onItemSelected(selectedIndex: Int?) {
+    override fun onItemSelected(selectedIndex: Int?, mode: String) {
+        if(mode=="Cards"){
+            selectedCard = loginedUser.cards!![selectedIndex!!]
+            binding.defaultCardNameTextView.text = selectedCard!!.holderName
+            binding.defaultCardNumTextView.text = selectedCard!!.cardNum.toString()
+            Log.v(TAG,"------------------------------------------------------------change card")
+        }else{
+            selectedAddress = loginedUser.addresses!![selectedIndex!!]
+            binding.defaultAddressNameTextView.text = selectedAddress!!.name
+            Log.v(TAG,"------------------------------------------------------------change payment")
+        }
+        if(selectedAddress != null && selectedCard != null){
+
+        }
+
         bottomSheetDialog.dismiss()
-        selectedCard = loginedUser.cards!![selectedIndex!!]
-        binding.defaultCardNameTextView.text = selectedCard.holderName
-        binding.defaultCardNumTextView.text = selectedCard.cardNum.toString()
+    }
+    override fun onDataChangeCallback(addressCount: Long) {
+        if(true)
+        {
+            if(isDeliveryOn)
+            {
+                Log.v("asds",addressCount.toString())
+                database.child("Delivery").child(id).setValue(order)
+                dataCollect.child(restaurantName!!).child(selectedAddress!!.city!!).setValue(addressCount)
+
+
+            }
+            else
+            {
+                database.child("PickUp").child(id).setValue(order)
+            }
+        }
     }
 
 

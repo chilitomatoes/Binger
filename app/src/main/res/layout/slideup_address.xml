@@ -8,7 +8,6 @@
     android:orientation="vertical">
 
     <EditText
-
         android:id="@+id/addressNameEditText"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="330dp"
@@ -19,41 +18,51 @@
         app:layout_constraintStart_toStartOf="@+id/textView9"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
+
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/addressLine1Txt"
+        android:text="@string/addressLineTxt"
         app:layout_constraintStart_toStartOf="@+id/addressNameEditText"
         app:layout_constraintTop_toBottomOf="@+id/addressNameEditText" />
 
+
     <EditText
 
-        android:id="@+id/addressLine1EditText"
+        android:id="@+id/addressLineEditText"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="330dp"
+        android:layout_width="285dp"
         android:layout_height="46dp"
         android:layout_marginTop="10dp"
         android:ems="10"
         android:inputType="textPostalAddress"
-        android:maxLength="16"
         app:layout_constraintStart_toStartOf="@+id/textView3"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <ImageButton
+        android:id="@+id/mapButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/addressLineEditText"
+        app:layout_constraintStart_toEndOf="@+id/addressLineEditText"
+        app:layout_constraintTop_toTopOf="@+id/addressLineEditText"
+        app:srcCompat="@drawable/map" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
         android:text="@string/postalCodeTxt"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addressLine2EditText" />
+        app:layout_constraintStart_toStartOf="@+id/addressLineEditText"
+        app:layout_constraintTop_toBottomOf="@+id/addressLineEditText" />
 
     <EditText
         android:id="@+id/postalCodeEditText"
-        android:layout_width="150dp"
+        android:layout_width="100dp"
         android:layout_height="46dp"
         android:layout_marginTop="10dp"
         android:ems="10"
@@ -66,40 +75,20 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="115dp"
-        android:text="@string/townTxt"
+        android:layout_marginStart="55dp"
+        android:text="@string/cityTxt"
         app:layout_constraintStart_toEndOf="@+id/textView4"
         app:layout_constraintTop_toTopOf="@+id/textView4" />
 
     <EditText
-        android:id="@+id/townEditText"
-        android:layout_width="150dp"
+        android:id="@+id/cityEditText"
+        android:layout_width="195dp"
         android:layout_height="46dp"
-        android:layout_marginStart="30dp"
         android:ems="10"
         android:inputType="textPostalAddress"
         app:layout_constraintBottom_toBottomOf="@+id/postalCodeEditText"
-        app:layout_constraintStart_toEndOf="@+id/postalCodeEditText"
+        app:layout_constraintStart_toStartOf="@+id/textView6"
         app:layout_constraintTop_toTopOf="@+id/postalCodeEditText" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/stateTxt"
-        app:layout_constraintStart_toStartOf="@+id/postalCodeEditText"
-        app:layout_constraintTop_toBottomOf="@+id/postalCodeEditText" />
-
-    <EditText
-        android:id="@+id/stateEditText"
-        android:layout_width="330dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:inputType="textPostalAddress"
-        app:layout_constraintStart_toStartOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <TextView
         android:id="@+id/addAddressSlideUp"
@@ -117,15 +106,16 @@
         android:id="@+id/addAddressButton"
         android:layout_width="344dp"
         android:layout_height="54dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:text="@string/addButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stateEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/doorNumEditText" />
 
     <EditText
 
-        android:id="@+id/addressLine2EditText"
+        android:id="@+id/doorNumEditText"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="330dp"
         android:layout_height="46dp"
@@ -140,9 +130,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/addressLine2Txt"
-        app:layout_constraintStart_toStartOf="@+id/addressLine1EditText"
-        app:layout_constraintTop_toBottomOf="@+id/addressLine1EditText" />
+        android:text="@string/doorNumTxt"
+        app:layout_constraintStart_toStartOf="@+id/postalCodeEditText"
+        app:layout_constraintTop_toBottomOf="@+id/postalCodeEditText" />
 
     <TextView
         android:id="@+id/textView9"

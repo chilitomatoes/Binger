@@ -181,7 +181,7 @@ class Login : AppCompatActivity() {
                         isAdmin = true
                     }
                 }
-
+//------------------------------------------------------------------------------------------------------------------------------- Login to admin
                 if (isAdmin) {
                     val editor = sharedPreferences.edit()
                     editor.putBoolean("isLoggedIn", true)

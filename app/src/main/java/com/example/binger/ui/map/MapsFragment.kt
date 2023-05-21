@@ -6,11 +6,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.binger.R
+import com.example.binger.model.GeocoderData
 import com.google.android.gms.common.api.Status
-import com.google.android.gms.location.places.AutocompleteFilter
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -19,7 +20,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
@@ -27,9 +27,10 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import java.util.*
 
 class MapsFragment : Fragment() {
-
     private lateinit var googleMap: GoogleMap
     private lateinit var placesClient: PlacesClient
+    private var selectedGeocoderData: GeocoderData? = null
+    var buttonClickListener: ButtonClickListener? = null
 
     private val callback = OnMapReadyCallback { map ->
         googleMap = map
@@ -75,12 +76,22 @@ class MapsFragment : Fragment() {
                 val geocoder = Geocoder(requireContext(), Locale.getDefault())
                 val addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
                 if (addresses!!.isNotEmpty()) {
-                    val town = addresses[0].adminArea
-                    if (town != null) {
-                        // Use the extracted city
-                        // You can do further processing with the city
-                        Log.d("--------------------------------------Selected City", town)
+                    var city:String?=null
+                    if(addresses[0].subLocality == null){
+                        city = addresses[0].locality
+                    }else{
+                        city = addresses[0].subLocality
                     }
+                    var addressLine = addresses[0].getAddressLine(0)
+                    //for (i in 0..addresses[0].maxAddressLineIndex) {
+                    //    addressLine += addresses[0].getAddressLine(i)
+                    //}
+
+                    val postalCode = addresses[0].postalCode
+
+                    // Set the geocoder data
+                    selectedGeocoderData = GeocoderData(place.name, city, postalCode, addressLine!!)
+
                 }
             }
 
@@ -90,7 +101,18 @@ class MapsFragment : Fragment() {
                 Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
                 Log.v(TAG,errorMessage)
             }
+
         })
+
+        val closeMap: Button = requireActivity().findViewById(R.id.closeMapButton)
+        // Button click event
+        closeMap.setOnClickListener {
+            // Call the interface method to notify the parent fragment
+            selectedGeocoderData?.let { it1 -> buttonClickListener?.onButtonClicked(it1) }
+        }
     }
 
+    interface ButtonClickListener {
+        fun onButtonClicked(selectedGeocoderData: GeocoderData)
+    }
 }

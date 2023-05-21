@@ -18,9 +18,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.binger.R
 import com.example.binger.databinding.FragmentAddressBinding
 import com.example.binger.model.Address
+import com.example.binger.model.User
 import com.google.firebase.database.DatabaseReference
+import org.w3c.dom.Text
 
-class AddressAdapter(val context: Context, private val addressList : ArrayList<Address>, private val database: DatabaseReference): RecyclerView.Adapter<AddressAdapter.MyViewHolder>() {
+class AddressAdapter(val context: Context, private val addressList : ArrayList<Address>, private val database: DatabaseReference, private val loginedUser: User): RecyclerView.Adapter<AddressAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -34,9 +36,9 @@ class AddressAdapter(val context: Context, private val addressList : ArrayList<A
     override fun onBindViewHolder(holder: AddressAdapter.MyViewHolder, position: Int) {
         val currentItem = addressList[position]
 
-        holder.addressName.text = currentItem.name
-        holder.addressLine1.text = currentItem.line1
-        holder.addressLine2.text = currentItem.line2
+        holder.addressName.text = currentItem.name.toString()
+        holder.addressLine.text = currentItem.addressLine.toString()
+        holder.doorNum.text = currentItem.doorNum.toString()
 
         if(currentItem.default==1){
             holder.itemLayout.setBackgroundColor(Color.WHITE)
@@ -48,7 +50,7 @@ class AddressAdapter(val context: Context, private val addressList : ArrayList<A
             builder.setMessage("Confirm to DELETE?")
                 .setCancelable(false)
                 .setPositiveButton("Yes") { dialog, id ->
-                    database.child(currentItem.id.toString()).removeValue()
+                    database.child(loginedUser.uid.toString()).child("addresses").child(currentItem.id.toString()).removeValue()
                     Toast.makeText(context, "Address Deleted Successfully", Toast.LENGTH_SHORT).show()
                 }
                 .setNegativeButton("No") { dialog, id ->
@@ -66,9 +68,9 @@ class AddressAdapter(val context: Context, private val addressList : ArrayList<A
                 .setPositiveButton("Yes") { dialog, id ->
                     for(address in addressList){
                         address.default = 0
-                        database.child(address.id.toString()).child("default").setValue(0)
+                        database.child(loginedUser.uid.toString()).child("addresses").child(address.id.toString()).child("default").setValue(0)
                     }
-                    database.child(currentItem.id.toString()).child("default").setValue(1)
+                    database.child(loginedUser.uid.toString()).child("addresses").child(currentItem.id.toString()).child("default").setValue(1)
                     Toast.makeText(context, "Set Default Successfully", Toast.LENGTH_SHORT).show()
                 }
                 .setNegativeButton("No") { dialog, id ->
@@ -88,8 +90,8 @@ class AddressAdapter(val context: Context, private val addressList : ArrayList<A
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val addressName: TextView = itemView.findViewById(R.id.addressNameTextView)
-        val addressLine1: TextView = itemView.findViewById(R.id.addressLine1TextView)
-        val addressLine2: TextView = itemView.findViewById(R.id.addressLine2TextView)
+        val addressLine: TextView = itemView.findViewById(R.id.addressLineTextView)
+        val doorNum: TextView = itemView.findViewById(R.id.doorNumTextView)
         val isDefault: Button = itemView.findViewById(R.id.setAddressDefaultButton)
         val deleteBtn: ImageButton = itemView.findViewById(R.id.deleteAddressButton)
         val itemLayout: View = itemView.findViewById(R.id.addressItemLayout)

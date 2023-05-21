@@ -25,13 +25,12 @@
         android:text="No item"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/selectionImageView"
         app:layout_constraintStart_toEndOf="@+id/selectionImageView"
         app:layout_constraintTop_toTopOf="@+id/selectionImageView" />
 
     <TextView
         android:id="@+id/selectionTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Please add at least 1 option"

@@ -15,7 +15,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/addressCardView"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="90dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -25,19 +25,11 @@
                 android:id="@+id/defaultAddressNameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView"
+                android:text="No Address Added"
                 android:textSize="16sp"
+                android:textStyle="bold"
                 android:translationX="80dp"
-                android:translationY="15dp" />
-
-            <TextView
-                android:id="@+id/defaultAddressTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TextView"
-                android:textSize="14sp"
-                android:translationX="80dp"
-                android:translationY="40dp" />
+                android:translationY="30dp" />
 
             <ImageView
                 android:id="@+id/addressArrow"
@@ -54,7 +46,7 @@
                 android:layout_height="45dp"
                 android:src="@drawable/ic_menu_address"
                 android:translationX="25dp"
-                android:translationY="15dp" />
+                android:translationY="20dp" />
         </androidx.cardview.widget.CardView>
 
         <TextView
@@ -170,15 +162,16 @@
             android:textSize="18sp"
             android:textStyle="bold"/>
 
-        <TextView android:id="@+id/tvTotal"
+        <TextView
+            android:id="@+id/tvTotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvDeliveryCharge"
             android:layout_margin="10dp"
             android:text="Total"
             android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDeliveryCharge" />
 
         <TextView android:id="@+id/tvTotalAmount"
             android:layout_width="wrap_content"
@@ -190,31 +183,38 @@
             android:textSize="18sp"
             android:textStyle="bold"/>
 
-        <TextView android:id="@+id/buttonPlaceYourOrder"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/buttonPlaceYourOrder"
+            android:layout_width="380dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTotal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_back"
+            android:gravity="center"
             android:text="Place your order"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:padding="10dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/button_back"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTotal" />
+
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvAddress" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/paymentCardView"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginTop="4dp"
+            android:layout_height="90dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvPayment">
+            app:layout_constraintTop_toBottomOf="@+id/divider4">
 
             <ImageView
                 android:id="@+id/imageView2"
@@ -222,25 +222,26 @@
                 android:layout_height="35dp"
                 android:src="@drawable/card"
                 android:translationX="20dp"
-                android:translationY="15dp" />
+                android:translationY="25dp" />
 
             <TextView
                 android:id="@+id/defaultCardNameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView"
+                android:text="No Card Added"
                 android:textSize="16sp"
+                android:textStyle="bold"
                 android:translationX="80dp"
-                android:translationY="15dp" />
+                android:translationY="20dp" />
 
             <TextView
                 android:id="@+id/defaultCardNumTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView"
+                android:text="Add card at 'Payment'"
                 android:textSize="14sp"
                 android:translationX="80dp"
-                android:translationY="40dp" />
+                android:translationY="45dp" />
 
             <ImageView
                 android:id="@+id/paymentArrow"
@@ -263,6 +264,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addressCardView" />
+
+        <View
+            android:id="@+id/divider4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvPayment" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
