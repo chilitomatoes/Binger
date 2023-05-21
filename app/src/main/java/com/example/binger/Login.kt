@@ -132,7 +132,7 @@ class Login : AppCompatActivity() {
                 }
 
                 if (isAdmin) {
-                    startActivity(Intent(this@Login, MainActivity::class.java))
+                    startActivity(Intent(this@Login, MainActivity_Admin::class.java))
                     finish()
                 } else {
                     // Admin credentials not found or didn't match
