@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -49,13 +50,13 @@ class modifyPassFragment : Fragment() {
         val user = FirebaseAuth.getInstance().currentUser
         val email = user?.email
 
-        val oldPassword = binding.usernewpassword.text.toString().trim()
-        val newPassword = binding.useroldpassword.text.toString().trim()
+        val currentPassword = binding.useroldpassword.text.toString().trim()
+        val newPassword = binding.usernewpassword.text.toString().trim()
 
         if (user != null && email != null) {
-            val credential = EmailAuthProvider.getCredential(email, oldPassword)
+            val credential = EmailAuthProvider.getCredential(email, currentPassword)
 
-            // Reauthenticate the user to verify the old password
+            // Reauthenticate the user to verify the current password
             user.reauthenticate(credential)
                 .addOnSuccessListener {
                     // Reauthentication successful, proceed with password update
@@ -75,6 +76,14 @@ class modifyPassFragment : Fragment() {
     }
 
     private fun navigateToLogin() {
+
+        val editor = sharedPreferences.edit()
+        editor.clear()
+        editor.apply()
+
+        // Sign out the user from Firebase Auth
+        firebaseAuth.signOut()
+
         val intent = Intent(requireContext(), Login::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)

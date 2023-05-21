@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.binger.databinding.FragmentProfileBinding
 import com.example.binger.model.User
 
@@ -41,10 +42,13 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         firebaseAuth = FirebaseAuth.getInstance()
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
-readUserData()
+        readUserData()
         loadUser()
 
         binding.updateButton.setOnClickListener { updateInfo() }
+        binding.setUserpassword.setOnClickListener{
+            findNavController().navigate(R.id.modifyPassFragment)
+        }
 
         setupFieldValidations()
     }

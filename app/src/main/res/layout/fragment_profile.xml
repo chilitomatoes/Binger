@@ -99,6 +99,8 @@
         android:hint="Password"
         app:endIconDrawable="@drawable/baseline_edit_24"
         app:endIconMode="custom"
+        android:clickable="false"
+        android:focusable="false"
         app:hintTextColor="@color/yellow"
         app:boxStrokeColor="@color/yellow"
         app:errorEnabled="true"
@@ -115,7 +117,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:inputType="none"
+            android:clickable="false"
+            android:focusable="false"
             android:textSize="15dp"
             tools:ignore="TextSizeCheck" />
 
