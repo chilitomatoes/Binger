@@ -15,6 +15,8 @@
     <string name="menu_address">Address</string>
     <string name="menu_history">History</string>
     <string name="menu_logout">Logout</string>
+    <string name="menu_menu">Menu</string>
+    <string name="menu_checkout">Check Out</string>
 
     <string name="default_button">Default</string>
     <string name="addCardTxt">Add Card</string>
@@ -25,11 +27,10 @@
     <string name="addButton">ADD</string>
 
     <string name="addAddressTxt">Add Address</string>
-    <string name="addressLine1Txt">Address line 1</string>
-    <string name="addressLine2Txt">Address line 2</string>
+    <string name="addressLineTxt">Address line</string>
     <string name="postalCodeTxt">Postal Code</string>
-    <string name="townTxt">Town</string>
-    <string name="stateTxt">State</string>
+    <string name="cityTxt">City</string>
+    <string name="doorNumTxt">Floor/Unit No.</string>
     <string name="addressNameTxt">Name</string>
 
 

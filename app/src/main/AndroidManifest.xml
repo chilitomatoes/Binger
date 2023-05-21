@@ -32,9 +32,6 @@
             android:value="@string/map_api_key" />
 
         <activity
-            android:name=".adminlogin"
-            android:exported="false" />
-        <activity
             android:name=".signup"
             android:exported="false" />
         <activity

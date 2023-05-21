@@ -121,7 +121,7 @@ class Login : AppCompatActivity() {
                         isAdmin = true
                     }
                 }
-
+//------------------------------------------------------------------------------------------------------------------------------- Login to admin
                 if (isAdmin) {
                     startActivity(Intent(this@Login, MainActivity::class.java))
                     finish()

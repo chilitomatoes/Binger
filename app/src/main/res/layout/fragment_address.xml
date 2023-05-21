@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.address.AddressFragment">
 
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addAddressFloatingButton"
         android:layout_width="wrap_content"
@@ -27,4 +28,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/address_item" />
+
+    <FrameLayout
+        android:id="@+id/childFragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

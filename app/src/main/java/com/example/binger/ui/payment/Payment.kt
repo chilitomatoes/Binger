@@ -24,6 +24,7 @@ import com.example.binger.adapter.CheckOutSelectionAdapter
 import com.example.binger.databinding.FragmentPaymentBinding
 import com.example.binger.ui.menu.menuViewModel
 import com.example.binger.adapter.OrderPlacementAdapter
+import com.example.binger.model.Address
 import com.example.binger.model.Menus
 import com.example.binger.model.PaymentMethod
 import com.example.binger.model.User
@@ -36,8 +37,9 @@ import kotlin.math.log
 class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener{
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var loginedUser: User
-    private lateinit var selectedCard: PaymentMethod
-    var orderPlacement: OrderPlacementAdapter?=null
+    private var selectedCard: PaymentMethod? =null
+    private var selectedAddress: Address? = null
+    var orderPlacement: OrderPlacementAdapter? =null
     var isDeliveryOn:Boolean=false
     var restaurantName:String?="null"
     var food:ArrayList<Menus>?= ArrayList()
@@ -49,6 +51,7 @@ class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener{
 
     private lateinit var viewModel: menuViewModel
     private lateinit var recyclerView: RecyclerView
+    private lateinit var placeOrderButton: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,15 +75,26 @@ class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         loginedUser= readUserData()
 
         for(card in loginedUser.cards!!){
             if(card.default==1){
                 selectedCard = card
-                binding.defaultCardNameTextView.text = selectedCard.holderName
-                binding.defaultCardNumTextView.text = selectedCard.cardNum.toString()
+                binding.defaultCardNameTextView.text = selectedCard!!.holderName
+                binding.defaultCardNumTextView.text = selectedCard!!.cardNum.toString()
             }
+        }
+
+        for(address in loginedUser.addresses!!){
+            if(address.default==1){
+                selectedAddress = address
+                binding.defaultAddressNameTextView.text = selectedAddress!!.name
+            }
+        }
+
+        placeOrderButton = binding.buttonPlaceYourOrder as Button
+        if(selectedAddress == null && selectedCard == null){
+
         }
 
         for(item in viewModel.menus!!)
@@ -208,11 +222,22 @@ class Payment : Fragment() , CheckOutSelectionAdapter.AdapterListener{
         return gson.fromJson(json, User::class.java)
     }
 
-    override fun onItemSelected(selectedIndex: Int?) {
+    override fun onItemSelected(selectedIndex: Int?, mode: String) {
+        if(mode=="Cards"){
+            selectedCard = loginedUser.cards!![selectedIndex!!]
+            binding.defaultCardNameTextView.text = selectedCard!!.holderName
+            binding.defaultCardNumTextView.text = selectedCard!!.cardNum.toString()
+            Log.v(TAG,"------------------------------------------------------------change card")
+        }else{
+            selectedAddress = loginedUser.addresses!![selectedIndex!!]
+            binding.defaultAddressNameTextView.text = selectedAddress!!.name
+            Log.v(TAG,"------------------------------------------------------------change payment")
+        }
+        if(selectedAddress != null && selectedCard != null){
+
+        }
+
         bottomSheetDialog.dismiss()
-        selectedCard = loginedUser.cards!![selectedIndex!!]
-        binding.defaultCardNameTextView.text = selectedCard.holderName
-        binding.defaultCardNumTextView.text = selectedCard.cardNum.toString()
     }
 
 

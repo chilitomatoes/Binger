@@ -22,7 +22,7 @@
         android:id="@+id/addressNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
+        android:layout_marginStart="20dp"
         android:text="TextView"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -31,24 +31,23 @@
         app:layout_constraintTop_toTopOf="@+id/imageView3" />
 
     <TextView
-        android:id="@+id/addressLine1TextView"
+        android:id="@+id/doorNumTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:text="TextView"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/addressNameTextView"
-        app:layout_constraintTop_toBottomOf="@+id/addressNameTextView" />
+        app:layout_constraintStart_toStartOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <TextView
-        android:id="@+id/addressLine2TextView"
-        android:layout_width="wrap_content"
+        android:id="@+id/addressLineTextView"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="TextView"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/addressLine1TextView"
-        app:layout_constraintTop_toBottomOf="@+id/addressLine1TextView" />
+        app:layout_constraintStart_toStartOf="@+id/doorNumTextView"
+        app:layout_constraintTop_toBottomOf="@+id/doorNumTextView" />
 
     <ImageButton
         android:id="@+id/deleteAddressButton"
@@ -64,17 +63,17 @@
         android:id="@+id/setAddressDefaultButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
         android:text="@string/default_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/deleteAddressButton" />
+        app:layout_constraintTop_toBottomOf="@+id/addressLineTextView" />
 
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -18,7 +18,9 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.binger.databinding.ActivityMainBinding
+import com.example.binger.model.GeocoderData
 import com.example.binger.model.User
+import com.example.binger.ui.address.AddressFragment
 import com.example.binger.ui.menu.menuViewModel
 import com.google.gson.Gson
 
@@ -76,9 +78,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == R.id.action_settings){
-            findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.nav_payment)
-        }
+        //if(item.itemId == R.id.action_settings){
+        //    findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.nav_payment)
+        //}
         return super.onOptionsItemSelected(item)
     }
+
 }
