@@ -46,7 +46,16 @@ class Login : AppCompatActivity() {
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
+        val currentUser = firebaseAuth.currentUser
+        if (currentUser != null) {
+            // User is already signed in, navigate to the desired screen
+            startActivity(Intent(this@Login,MainActivity::class.java))
+            finish()
+        }
+
         binding.loginButton2.setOnClickListener {loginUser()}
+
+
 
         binding.signupBtn.setOnClickListener {
             signUser()
@@ -145,6 +154,7 @@ class Login : AppCompatActivity() {
             .addOnSuccessListener {
                 // Login success
                 checkUser()
+
             }
             .addOnFailureListener { e ->
                 // Failed login
