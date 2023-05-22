@@ -243,11 +243,12 @@ class Login : AppCompatActivity() {
 
     private fun checkUser() {
         //Get data from firebase and save them into sharePref
-        
         val firebaseUser = firebaseAuth.currentUser!!
         val ref = FirebaseDatabase.getInstance().getReference("User")
         ref.child(firebaseUser.uid).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+
+                // Declare variables needs
 
                 var cardList: ArrayList<PaymentMethod> = ArrayList()
                 for(cardSnapShot in snapshot.child("cards").children){
@@ -277,7 +278,6 @@ class Login : AppCompatActivity() {
                 if (loginedUser != null) {
                     saveUserData(loginedUser)
                 }
-
 
                 // Navigate to the profile screen
                 startActivity(Intent(this@Login,MainActivity::class.java))
