@@ -1,6 +1,7 @@
 package com.example.binger.model
 
-data class User(var uid: String ?= null,
+data class User(
+                var uid: String ?= null,
                 var email : String ?= null,
                 var username: String ?= null,
                 var userContact: String ?= null,
