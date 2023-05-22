@@ -243,6 +243,7 @@ class Login : AppCompatActivity() {
 
     private fun checkUser() {
         //Get data from firebase and save them into sharePref
+        
         val firebaseUser = firebaseAuth.currentUser!!
         val ref = FirebaseDatabase.getInstance().getReference("User")
         ref.child(firebaseUser.uid).addListenerForSingleValueEvent(object : ValueEventListener {
