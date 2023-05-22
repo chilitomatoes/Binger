@@ -242,11 +242,11 @@ class Login : AppCompatActivity() {
     }*/
 
     private fun checkUser() {
+        //Get data from firebase and save them into sharePref
         val firebaseUser = firebaseAuth.currentUser!!
         val ref = FirebaseDatabase.getInstance().getReference("User")
         ref.child(firebaseUser.uid).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-
 
                 var cardList: ArrayList<PaymentMethod> = ArrayList()
                 for(cardSnapShot in snapshot.child("cards").children){
@@ -288,7 +288,9 @@ class Login : AppCompatActivity() {
         })
     }
 
+
     private fun saveUserData(loginedUser: User) {
+        //Save data to sharePref function
         val editor = sharedPreferences.edit()
         val gson = Gson()
         val json = gson.toJson(loginedUser)

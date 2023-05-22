@@ -45,8 +45,8 @@ class ProfileFragment : Fragment() {
         firebaseAuth = FirebaseAuth.getInstance()
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         loginedUser= readUserData()
-        loadUser()
 
+        binding.setUserpassword.setText("1234567890")
         binding.settUsername.setText(loginedUser.username)
         binding.setUsercontact.setText((loginedUser.userContact))
         binding.settUseremail.setText(loginedUser.email)
@@ -157,34 +157,24 @@ class ProfileFragment : Fragment() {
                         loginedUser.email = newEmail
                         loginedUser.userContact = newContact
                         saveUserData(loginedUser)
-                        Log.v(TAG,"--------------------------------"+ loginedUser.username.toString())
                         Toast.makeText(requireContext(), "Changes saved", Toast.LENGTH_SHORT).show()
 
 
                     } else {
-                        // An error occurred while updating the email
+
                         Toast.makeText(requireContext(), "Failed to update email", Toast.LENGTH_SHORT).show()
                     }
                 }
         } else {
-            // User not logged in or authenticated
+
             Toast.makeText(requireContext(), "User not authenticated", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun loadUser() {
-        val loginedUser: User = readUserData()
-        Log.v("WREEEEEEEEEEEEEEEEEEEEEEEEEEEEE",loginedUser.toString())
-
-        binding.settUsername.setText(loginedUser.username)
-        binding.settUseremail.setText(loginedUser.email)
-        binding.setUsercontact.setText(loginedUser.userContact)
-    }
 
     public fun readUserData(): User {
         val gson = Gson()
         val json = sharedPreferences.getString("loginedUser", null)
-
         return gson.fromJson(json, User::class.java)
     }
 

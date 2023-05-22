@@ -12,6 +12,8 @@
         android:layout_height="80dp"
         android:layout_marginTop="192dp"
         android:hint="Name"
+        app:counterEnabled="true"
+        app:counterMaxLength="20"
         android:visibility="visible"
         app:hintTextColor="@color/yellow"
         app:boxStrokeColor="@color/yellow"
@@ -29,8 +31,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
             android:textSize="15dp"
-            tools:ignore="TextSizeCheck" />
+             />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -41,9 +44,11 @@
         android:layout_marginTop="10dp"
         app:hintTextColor="@color/yellow"
         app:boxStrokeColor="@color/yellow"
+        android:textColorHint="@color/darkblue2"
         android:hint="Email"
         app:endIconDrawable="@drawable/baseline_edit_24"
         app:endIconMode="custom"
+        android:inputType="textEmailAddress"
         app:errorEnabled="true"
         android:visibility="visible"
         app:startIconDrawable="@drawable/baseline_email_24"
@@ -58,7 +63,8 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:textSize="15dp"
-            tools:ignore="TextSizeCheck" />
+            android:inputType="textEmailAddress"
+             />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -73,6 +79,8 @@
         app:hintTextColor="@color/yellow"
         app:boxStrokeColor="@color/yellow"
         app:errorEnabled="true"
+        app:counterEnabled="true"
+        app:counterMaxLength="11"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
@@ -87,7 +95,8 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:textSize="15dp"
-            tools:ignore="TextSizeCheck" />
+            android:inputType="phone"
+           />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -119,11 +128,10 @@
             android:background="@color/white"
             android:clickable="false"
             android:focusable="false"
-            android:textSize="15dp"
-            tools:ignore="TextSizeCheck" />
+            android:inputType="textPassword"
+            android:textSize="15dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
-
 
 
     <android.widget.Button
@@ -131,7 +139,6 @@
         android:layout_width="350dp"
         android:layout_height="50dp"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="100dp"
         android:background="@color/purple_500"
         android:text="Update"
         android:textColor="@color/black"

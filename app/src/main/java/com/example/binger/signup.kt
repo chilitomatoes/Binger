@@ -33,13 +33,12 @@ class signup : AppCompatActivity() {
         val spannableStringSign = SpannableString(loginText)
         val clickableSpanSign = object : ClickableSpan() {
             override fun onClick(view: View) {
-                // Start the desired activity here
                 val intent = Intent(this@signup, Login::class.java)
                 startActivity(intent)
             }
 
             override fun updateDrawState(ds: TextPaint) {
-                ds.isUnderlineText = false // Remove the underline
+                ds.isUnderlineText = false
                 ds.color = ContextCompat.getColor(this@signup, R.color.red) // Set custom color
             }
         }
@@ -165,11 +164,8 @@ class signup : AppCompatActivity() {
         val usercontactText = binding.contact.text.toString().trim()
         val useremailText = binding.email.text.toString().trim()
 
-
-        // Get current user UID, since the user is registered, we can get it now
         val uid = firebaseAuth.uid
 
-        // Setup data to add in the database
         val accInfo: HashMap<String, Any?> = HashMap()
         accInfo["uid"] = uid
         accInfo["email"] = useremailText
@@ -180,7 +176,6 @@ class signup : AppCompatActivity() {
         accInfo["orders"] = ""
 
 
-        // Set data to the database
         val ref = FirebaseDatabase.getInstance().getReference("User")
         ref.child(uid!!).setValue(accInfo).addOnSuccessListener {
             Toast.makeText(this, "Account Created", Toast.LENGTH_SHORT).show()
@@ -195,8 +190,5 @@ class signup : AppCompatActivity() {
             }
     }
 
-    private fun loginUser() {
-        val login = Intent(this, Login::class.java)
-        startActivity(login)
-    }
+
 }

@@ -40,7 +40,6 @@ class modifyPassFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         firebaseAuth = FirebaseAuth.getInstance()
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
-
         binding.changePassButton.setOnClickListener { changePassword() }
 
     }
@@ -56,10 +55,8 @@ class modifyPassFragment : Fragment() {
         if (user != null && email != null) {
             val credential = EmailAuthProvider.getCredential(email, currentPassword)
 
-            // Reauthenticate the user to verify the current password
             user.reauthenticate(credential)
                 .addOnSuccessListener {
-                    // Reauthentication successful, proceed with password update
                     user.updatePassword(newPassword)
                         .addOnSuccessListener {
                             Toast.makeText(requireContext(), "Password updated successfully", Toast.LENGTH_SHORT).show()

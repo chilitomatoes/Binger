@@ -77,7 +77,7 @@
         android:textColorHint="@color/darkblue2"
         app:boxStrokeColor="@color/yellow"
         app:counterEnabled="true"
-        app:counterMaxLength="10"
+        app:counterMaxLength="11"
         app:endIconDrawable="@drawable/ic_baseline_check"
         app:endIconMode="custom"
         app:hintTextColor="@color/yellow"
